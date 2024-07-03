@@ -9,7 +9,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){
     $operacion = $_POST['operacion'];
     echo 'TENEMOS CALCULADORA <br>';
 //  require "../controlador/calculadoraControlador.php";
-    require "autoload_Controlador.php";
+    require "autoload_controlador.php";
     $calculadoraFoap= new calculadora($num1, $num2, $operacion);
     echo 'TENEMOS CALCULADORA <br>';
     echo $calculadoraFoap->calcular().'<br>';
