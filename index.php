@@ -1,3 +1,4 @@
+
 <?php
 require "classes.php";
 
@@ -24,7 +25,7 @@ $coche1->setColor('blanco');
 echo 'El coche ahora es '.$coche1->getColor().'<br>';
 */
 
-$client1 = new Client ('Ikram',37,'mujer','123456789Z','Vilanova' , 50);
+/*$client1 = new Client ('Ikram',37,'mujer','123456789Z','Vilanova' , 50);
 $client1->saludar();
 $client1->asignarAgente();
 echo $client1->getEdat().'<br>';
@@ -33,7 +34,13 @@ $empleat1 = new Empleat ('Juan',30,'hombre','123456789X','Sitges' , 60);
 $empleat1->saludar();
 $empleat1->setOficina('oficina1');
 $empleat1->getOficina();
-
-
+*/
+$persona3 = new Person('juan',40,'hombre','','',80);
+echo $persona3->getEdat();
+Person::setDrinkingAge(21);
+echo Person::$drinkingAge;
+echo $persona3->getDrinkingAge();
+// echo $persona3->$drinkingAge; da error
+// echo $persona3->saludar('Jole!!'); da error porque la clase ya tiene una function saludar 
 
 ?>

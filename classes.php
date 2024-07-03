@@ -1,5 +1,17 @@
 <?php
 
+trait functionsTrait {
+    public function sanearCampo  ($text){
+        $text = trim($text);
+        $text = stripslashes($text);
+        $text = htmlspecialchars($text);
+        return $text;
+    }
+    public function saludar ($text){
+        echo "Hola $text";
+    }
+}
+
 class Person {
 //    public $nom;
     private $nom;
@@ -8,6 +20,7 @@ class Person {
     protected $DNI;
     private $direccio;
     protected $pes;
+    public static $drinkingAge =18; // se puede reasignar desde fuera de la class también
 
 
     public function __construct($nom, $edat, $genere, $DNI, $direccio, $pes) {
@@ -33,6 +46,13 @@ class Person {
         return $this->edat ; 
 
     }
+    public static function setDrinkingAge($newAge){
+        self::$drinkingAge = $newAge;
+    }
+    public function getDrinkingAge(){
+        return self::$drinkingAge; 
+    }
+    use functionsTrait;
 
 };
 
