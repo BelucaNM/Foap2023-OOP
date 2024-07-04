@@ -1,20 +1,18 @@
 
 <?php
 class usuario extends connection {
-        
-        
-            
         public function setUser($username, $password, $email) {
-            $error = false;
-            $stmt = $this -> connect()->prepare("insert into usuarios (username, password,email) values (?,?,?)" );
             
-            $stmt->bind_param("sss", $username, $password, $email);
+            $result = true;
+            $stmt = $this->connect()->prepare("insert into usuarios (username, password,email) values (?,?,?)" );
+            
+            $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
-            if (!$stmt -> execute(array ($username, $password,$email))){
-                $stmt = null;
-                header ("location: ../view/registro.html? error= failedStmt");
-            }
-        
+            if(!$stmt->execute(array($username, $hashedPwd, $email))){
+                $result = false;
+                }
+            $stmt = null;
+            return $result;
         }   
 
         public function baja() {

@@ -13,9 +13,13 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     require "../modelo/connection.php";
     require "../modelo/usuario.php";
     require "../controlador/usuarioContr.php";
+
 //    require "../controlador/autoload_controlador.php";
     $usuarioContr= new usuarioContr($username, $password1, $password2, $email);
     $usuarioContr->signupUser();
+
+    //Volver a la pagina inicial--- 
+    header("Location: ../view/signup.html?error=none");
                
     
 };

@@ -4,13 +4,13 @@ class connection {
 
         protected function connect(){
             try {
-                $con = new PDO ("mysql:host= localhot ; dbname='usuariosOBJ'",'root','');
-                return $con;
+                $conn = new PDO ('mysql:host= localhost; dbname=usuariosOBJ','root','');
+                return $conn;
             } catch (PDOException $e) {
-             return "Error: " . $e->getMessage()."<br>";
+                return "Error: " . $e->getMessage()."<br>";
             }
 
 
         }
-}     
+    }     
 ?>    

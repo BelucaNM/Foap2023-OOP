@@ -57,7 +57,7 @@ class usuarioContr extends usuario {
             if ($error) { header ("location: ../vista/singup.html?error=1"); exit();};
             */
 
-            if ($this->emptyInput() == false){
+            if ($this->emptyInput() == true){
                 header ("location: ../vista/singup.html?error=EmptyInput"); 
                 exit();};
        
@@ -65,16 +65,16 @@ class usuarioContr extends usuario {
 
             if ($this->setUser($this->username, $this->password1, $this->email)) {
                 header ("location: ../view/registro.html?error= FailedStmt");
-            }
-
-
+                exit();};
+            
         }
         
         private function emptyInput(){
-            $result = true;
+            $result = false;
             if (empty($this->username) || empty($this->password1) || empty($this->password2) || empty($this->email)){
-                $result = false;
+                $result = true;
             }
+            return $result;
         }
 
             
