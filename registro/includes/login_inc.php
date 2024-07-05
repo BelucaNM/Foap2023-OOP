@@ -7,8 +7,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['signIn']) ){// Valid
     
     $username = $_POST["username"];
     $password = $_POST["password"];
-    if(isset($_POST["recordar"]))
-     $recordar = $_POST["recordar"];
+    $recordar = "";
+    if(isset($_POST["recordar"])) {$recordar = $_POST["recordar"];};
     
 
     echo 'Creando instancia de registro <br>';
@@ -22,10 +22,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['signIn']) ){// Valid
     $loginContr= new usuarioContr($username, $password);
     $loginContr->setRecordar($recordar);
     $loginContr->login();
-
-    //Volver a la pagina inicial--- 
-//    header("Location: ../view/login.html?error=none");
-               
+              
    
 };
     
