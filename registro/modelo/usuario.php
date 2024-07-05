@@ -4,7 +4,7 @@ class usuario extends connection {
         public function setUser($username, $password, $email) {
             
             $result = true;
-            $stmt = $this->connect()->prepare("insert into usuarios (username, password,email) values (?,?,?)" );
+            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email) VALUES (?,?,?)");
             
             $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
