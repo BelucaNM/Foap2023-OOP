@@ -5,8 +5,9 @@ class usuarioContr extends usuario {
         private $password1;
         private $password2;
         private $email;
+        private $recordar;
 
-        public function __construct($username, $password1,$password2, $email) {
+        public function __construct($username, $password1,$password2="",$email="") {
                 $this->username = $username;
                 $this->password1 = $password1;
                 $this->password2 = $password2;
@@ -27,6 +28,9 @@ class usuarioContr extends usuario {
         public function getEmail() {
             return $this->email;
             }
+        public function getRecordar() {
+                return $this->recordar;
+                }
         public function setUsername($username) {
             $this->username = $username;
             }
@@ -39,7 +43,9 @@ class usuarioContr extends usuario {
         public function setEmail($email) {
             $this->email = $email;
             }
-        
+        public function setRecordar($recordar) {
+                $this->recordar = $recordar;
+                }
         Public function signupUser(){
             // validaciones
           
@@ -54,19 +60,35 @@ class usuarioContr extends usuario {
             if (empty ($this->password2) ){$error = true; };
     
             if (($this->password1 !== $this->password2)) {$error = true;};
-            if ($error) { header ("location: ../vista/singup.html?error=1"); exit();};
+            if ($error) { header ("location: ../vista/signup.html?error=1"); exit();};
             */
 
             if ($this->emptyInput() == true){
-                header ("location: ../vista/singup.html?error=EmptyInput"); 
+                header ("location: ../vista/signup.html?error=EmptyInput"); 
                 exit();};
+
+            if (!$this->usernameTakenCheck() == 2) {
+                    header ("location: ../vista/signup.html?error=UsernameTaken");
+                    exit();
+                }
+            
+            if (!$this->usernameTakenCheck() == 1) {
+                    header ("location: ../vista/signup.html?error=FailedStmt");
+                    exit();
+                }
+                
        
             //setUser to BD
 
-            if ($this->setUser($this->username, $this->password1, $this->email)) {
-                header ("location: ../view/registro.html?error= FailedStmt");
-                exit();};
+            if (!$this->setUser($this->username, $this->password1, $this->email)) {
+                header ("location: ../vista/signup.html?error= FailedStmt");
+                exit();
+            }
             
+        }
+        private function usernameTakenCheck(){
+            $result = $this->checkUser($this->username,$this->email);
+            return $result;
         }
         
         private function emptyInput(){
@@ -76,8 +98,46 @@ class usuarioContr extends usuario {
             }
             return $result;
         }
+        private function emptyInputDos(){
+            $result = false;
+            if (empty($this->username) || empty($this->password1)){
+                $result = true;
+            }
+            return $result;
+        }
 
+        Public function login(){
+            // validaciones
+
+            echo $this->username;
+            if ($this->emptyInputDos() == true){
+                //header ("location: ../vista/login.html?error=EmptyInput"); 
+                exit();
+            }
+
+            //chequea user/password en BD
+
+            if ($this->checkPass($this->username,$this->password1)) { // ver errores diferentes
+                header ("location: ../vista/registro.html?error=wrongPassword");
+                exit();
+            }
+            // si no hay error abro la session
+            session_start([
+                    'use_only_cookies'=> 1,
+                    'cookie_lifetime'=> 0,
+                    'cookie_secure'=> 1,
+                    'cookie_httponly'=> 1
+                ]);
+                
+            $_SESSION["usuario"] = $this->username; // inicia session
+                $cookie_name ="remember_me[0]";
+                    $cookie_value = $this->username;
+                    $cookie_expiry_time = time() + (24*3600); // un dia
+                    setcookie($cookie_name,$cookie_value,$cookie_expiry_time,"/","",true,true);
+    
             
+        }
+    
         public function validate_input($input)
             { // sanear datos
                 $input = trim($input);
@@ -96,7 +156,6 @@ class usuarioContr extends usuario {
             {
                 return ctype_alpha($str);
             }
-
 
         public function is_valid_pwd($str)
         { // comprueba que la palabra tenga al menos un caracter especial, una mayuscula, una minuscula y entre 6 y 8 caracteres 
