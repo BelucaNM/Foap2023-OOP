@@ -1,14 +1,16 @@
 <?php
-class tablaUsuarios extends connection {
+class tablaUsuarios extends usuario {
     private $tablaNombre = "usuarios";
+    public $tablaNumReg = 0;
 
   // Método para leer todos los registros
-    public function getUsuarios() {
+    public function getTodos() {
             
         $result = true;
-        $stmt = $this->connect()->prepare("Select id, username, password1, email, recordar from ". $this->tablaNombre);
+        $stmt = $this->connect()->prepare("Select idUsuario, username, password, email, recordar from ". $this->tablaNombre);
         $result = $stmt->execute();
-        return $result;
+        $this->tablaNumReg = $stmt->rowCount();
+        return $stmt->fetchAll();
         }   
 
 }
