@@ -19,7 +19,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     $usuarioContr->signupUser();
 
     //Volver a la pagina inicial--- 
-    header("Location: ../vista/signup.html?error=none");
+//    header("Location: ../vista/signup.html?error=none");
+    header("Location: ../vista/listaUsuarios.php");
                
     
 };

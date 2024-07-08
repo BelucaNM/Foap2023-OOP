@@ -8,10 +8,16 @@ echo "repUsuarios <br>";
 print_r($repUsuarios);
 $todos= $repUsuarios->getTodos();
 echo "<br> todos <br>";
-print_r($todos);
-$num = $repUsuarios->tablaNumReg;
-echo " Hay ".$num." registros.<br>";
-?>
+
+if ($todos == 1 ) { // error STMT
+        echo "Error al obtener todos los usuarios <br>";
+        $num=0;
+    } else {
+        print_r($todos);
+        $num = $repUsuarios->tablaNumReg;
+        echo " Hay ".$num." registros.<br>";
+    }
+    ?>
 <html>
 
 <head>
@@ -25,24 +31,27 @@ echo " Hay ".$num." registros.<br>";
 <h1> Ejercicio ListaUsuarios OOP</h1>
 <div  id="tablaUsuarios" class = "container"></div>
 <table border='1'>
-    <tr>
-    <th>ID</th>
-    <th>Username</th>
-    <th>email</th>
-    </tr>
-
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>email</th>
+        </tr>
+    </thead>
+    <tbody>
 <?php
-    if($num = 0) {
-        echo "No se encontraron usuarios.";
-    }else{      
-       foreach ($todos as $key => $usuario) {
-            echo "<tr>";
-            echo "<td>$usuario[idUsuario]</td>";
-            echo "<td>$usuario[username]</td>";
-            echo "<td>$usuario[email]</td>";
-            echo "</tr>";
-        };
-       echo "</table>";
+        if($num = 0) {
+            echo "No se encontraron usuarios.";
+        }else{      
+        foreach ($todos as $key => $usuario) {
+                echo "<tr>";
+                echo "<td>$usuario[idUsuario]</td>";
+                echo "<td>$usuario[username]</td>";
+                echo "<td>$usuario[email]</td>";
+                echo "</tr>";
+            };
+    echo "</tbody>";
+echo "</table>";
     }
 ?>
  </div>
