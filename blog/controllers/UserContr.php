@@ -111,7 +111,8 @@ class UserContr extends usuario
             header("Location: ../views/users_login.php?error=Contraseña incorrecta");
         }
         if ($res == 0) {
-            header("Location: ../views/home.php");
+            header("Location: ../views/home_isabel.php");
+//            header("Location: ../views/home.php");
         }
     }
 
