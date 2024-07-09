@@ -1,9 +1,10 @@
+
 <?php
 
 class blog extends connection{
 
-private $tablaNombre = "usuarios";
-public $tablaNumReg = 0;
+private $tablaNombre = "blogs";
+public $blogsNumReg = 0;
 
 public function getTodos($idUsuario="") {
             
@@ -24,19 +25,17 @@ public function getTodos($idUsuario="") {
 public function setBlog($idBlog,$titulo,$cuerpo,$fotoURL,$fotoALT,$fecha,$idUsuariol) {
             
     $result = true;
-    $stmt = $this->connect()->prepare("INSERT INTO ". $this->tablaNombre. "(idBlog,titulo,cuerpo,fotoURL,fotoALT,fecha,idUsuariol) VALUES (?,?,?,?,?,?,?)");
+    $stmt = $this->connect()->prepare("INSERT INTO ". $this->tablaNombre. "(titulo,cuerpo,fotoURL,fotoALT,fecha,idUsuariol) VALUES (?,?,?,?,?,?)");
 
-    if(!$stmt->execute(array($username, $hashedPwd, $email))){
+    if(!$stmt->execute(array($titulo,$cuerpo,$fotoURL,$fotoALT,$fecha,$idUsuariol))){
         $result = false;
     }
-    //$stmt = $this->connect()->query("INSERT INTO usuarios (username, password, email) VALUES ($username, $password, $email)");
-
-    /*if(!$stmt){
+    if(!$stmt){
         $result = false;
-        }*/
+        }
     $stmt = null;
     return $result;
-}  
+    }  
 }
     
 ?>

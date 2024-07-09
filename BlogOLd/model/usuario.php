@@ -16,7 +16,7 @@ class usuario extends connection {
             return $error;
         }
 
-        protected function checkPass($username, $password){
+    protected function checkPass($username, $password){
             $error = 0;
             $stmt = $this->connect()->prepare("SELECT password FROM usuarios WHERE username = ?;");
 
@@ -38,7 +38,24 @@ class usuario extends connection {
             return $error;
         }
   
-    
+    public function setUser($username, $password, $email) {
+            
+            $result = true;
+            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email) VALUES (?,?,?)");
+            
+            $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+
+            if(!$stmt->execute(array($username, $hashedPwd, $email))){
+                $result = false;
+            }
+            //$stmt = $this->connect()->query("INSERT INTO usuarios (username, password, email) VALUES ($username, $password, $email)");
+
+            /*if(!$stmt){
+                $result = false;
+                }*/
+            $stmt = null;
+            return $result;
+        }      
 
 }  
     
