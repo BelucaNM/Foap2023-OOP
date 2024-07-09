@@ -111,6 +111,17 @@ class UserContr extends usuario
             header("Location: ../views/users_login.php?error=Contraseña incorrecta");
         }
         if ($res == 0) {
+        // Si no hay error en el login, yo también crearía aqui la session
+            session_start([
+                            'use_only_cookies'=> 1,
+                            'cookie_lifetime'=> 0,
+                            'cookie_secure'=> 1,
+                            'cookie_httponly'=> 1
+            ]);
+                        
+            $_SESSION["usuario"] = $this->username; //
+                        
+            echo " Creada Sesion ";
             header("Location: ../views/home_isabel.php");
 //            header("Location: ../views/home.php");
         }
