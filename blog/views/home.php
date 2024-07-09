@@ -18,41 +18,14 @@ $_SESSION["user"] = 1
         <nav>
             <a href="#listado">Listado de Entradas</a>
             <a href="#nueva">Nueva Entrada</a>
+            <a href="..\includes\logout.php">LogOut</a>
         </nav>
     </header>
 
     <main>
-        <section id="listado" class="section">
-            <h2>Listado de Entradas</h2>
-            <div class="cards-container">
-                <div class="card">
-                    <img src="/public/images/post1.jpg" alt="Imagen de Ejemplo 1" class="card-img">
-                    <div class="card-body">
-                        <h3 class="card-title">Título de Ejemplo 1</h3>
-                        <p class="card-text">Contenido de ejemplo para la entrada del blog. Esto es una vista previa.
-                        </p>
-                        <a href="/views/posts/show.php?id=1" class="card-link">Leer más</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="/public/images/post2.jpg" alt="Imagen de Ejemplo 2" class="card-img">
-                    <div class="card-body">
-                        <h3 class="card-title">Título de Ejemplo 2</h3>
-                        <p class="card-text">Contenido de ejemplo para la entrada del blog. Esto es una vista previa.
-                        </p>
-                        <a href="/views/posts/show.php?id=2" class="card-link">Leer más</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="/public/images/post3.jpg" alt="Imagen de Ejemplo 3" class="card-img">
-                    <div class="card-body">
-                        <h3 class="card-title">Título de Ejemplo 3</h3>
-                        <p class="card-text">Contenido de ejemplo para la entrada del blog. Esto es una vista previa.
-                        </p>
-                        <a href="/views/posts/show.php?id=3" class="card-link">Leer más</a>
-                    </div>
-                </div>
-            </div>
+        <h2>Listado de Entradas</h2>
+        <section id='listado' class='sectionPost    '>
+            <?php include_once ("../includes/retrivepost.php") ?>
         </section>
 
         <section id="nueva" class="section">

@@ -21,7 +21,7 @@
     ?>
 
 
-    <a href="/users/register.php">Registrarse</a>
+    <a href="users_register.php">Registrarse</a>
 </body>
 
 </html>

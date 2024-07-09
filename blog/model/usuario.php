@@ -5,7 +5,7 @@ class usuario extends connection {
 
     protected function checkUser($username, $email){
             $error = 0;
-            $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE username = ? OR email = ?;");
+            $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE username = ? OR email = ?");
             if(!$stmt->execute(array($username, $email))){
                 $error = 1;
                 }
@@ -16,6 +16,7 @@ class usuario extends connection {
             return $error;
         }
 
+   
     protected function checkPass($username, $password){
             $error = 0;
             $stmt = $this->connect()->prepare("SELECT password FROM usuarios WHERE username = ?;");
@@ -25,9 +26,9 @@ class usuario extends connection {
             }else{
                 if($stmt->rowCount()>0){
                     $result = $stmt->fetch();
-                   /*  print_r($result); */
+                    //print_r($result);
                     $hashedPwd = $result['password'];
-                /*     echo $hashedPwd; */
+                    //echo $hashedPwd;
                     if (password_verify($password, $hashedPwd) != 1) {$error = 3;}
                 }else{
                     $error = 2;
@@ -37,7 +38,7 @@ class usuario extends connection {
             $stmt = null;
             return $error;
         }
-  
+
     public function setUser($username, $password, $email) {
             
             $result = true;

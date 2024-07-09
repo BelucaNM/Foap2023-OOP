@@ -5,7 +5,7 @@ class usuario extends connection {
 
     protected function checkUser($username, $email){
             $error = 0;
-            $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE username = ? OR email = ?;");
+            $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE username = ? OR email = ?");
             if(!$stmt->execute(array($username, $email))){
                 $error = 1;
                 }
@@ -17,10 +17,12 @@ class usuario extends connection {
         }
 
     protected function checkPass($username, $password){
+            
+            echo $username ." ".$password;
             $error = 0;
-            $stmt = $this->connect()->prepare("SELECT password FROM usuarios WHERE username = ?;");
+            $stmt = $this->connect()->prepare("SELECT password FROM usuarios WHERE username = ?");
 
-            if(!$stmt->execute(array($username))){
+            if(!$stmt->execute($username)){
                 $error = 1;
             }else{
                 if($stmt->rowCount()>0){
@@ -48,11 +50,7 @@ class usuario extends connection {
             if(!$stmt->execute(array($username, $hashedPwd, $email))){
                 $result = false;
             }
-            //$stmt = $this->connect()->query("INSERT INTO usuarios (username, password, email) VALUES ($username, $password, $email)");
-
-            /*if(!$stmt){
-                $result = false;
-                }*/
+            
             $stmt = null;
             return $result;
         }      

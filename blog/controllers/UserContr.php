@@ -69,8 +69,6 @@ class UserContr extends usuario
         //validation
         if ($this->emptyInput($this->username) == false || $this->emptyInput($this->password) == false || $this->emptyInput($this->email) == false) {
             header("Location: ../views/users_register.php?error=camposvacios");
-
-
             exit();
         }
         if ($this->usernameTakenCheck() == 2) {
@@ -105,17 +103,15 @@ class UserContr extends usuario
         $res = $this->checkPass($this->username, $this->password);
         if ($res == 1) {
             header("Location: ../views/users_login.php?error=Fallo en la  verificación");
-
         }
         if ($res == 2) {
             header("Location: ../views/users_login.php?error=El Usuario no existe");
-
         }
         if ($res == 3) {
             header("Location: ../views/users_login.php?error=Contraseña incorrecta");
         }
         if ($res == 0) {
-            return true;
+            header("Location: ../views/home.php");
         }
     }
 

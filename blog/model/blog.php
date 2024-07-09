@@ -11,18 +11,20 @@ class blog extends connection
 
         $result = true;
         if ($idUsuario == "") {
-            $sql = "SELECT idBlog, titulo, cuerpo, password, fotoURL, fotoALT, fecha, idUsuario FROM " . $this->tablaNombre . " ORDER BY fecha DESC";
+            $sql = "SELECT idBlog, titulo, cuerpo,  fotoURL, fotoALT, fecha, usuarios_idUsuario FROM " . $this->tablaNombre . " ORDER BY fecha DESC";
         } else {
-            $sql = "SELECT idBlog, titulo, cuerpo, password, fotoURL, fotoALT, fecha, idUsuario FROM " . $this->tablaNombre . " WHERE idUsuario = '$idUsuario' ORDER BY fecha DESC";
+            $sql = "SELECT idBlog, titulo, cuerpo,  fotoURL, fotoALT, fecha, usuarios_idUsuario FROM " . $this->tablaNombre . " WHERE idUsuario = '$idUsuario' ORDER BY fecha DESC";
         }
 
         $stmt = $this->connect()->prepare($sql);
         $result = $stmt->execute();
+
         if (!$result) {
             return 1;
         }
         ;
         $this->tablaNumReg = $stmt->rowCount();
+     
         return $stmt->fetchAll();
     }
 
