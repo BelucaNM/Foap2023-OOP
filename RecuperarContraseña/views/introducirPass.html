@@ -1,3 +1,12 @@
+<?php
+if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($GET['user']) ){// Validaciones
+    
+    $username = $GET["user"];
+
+?>
+
+
+
 <html>
 <head>
 		<title> Ejercicio RecuperarContraseña - Introduir Nueva Contraseña</title>
@@ -27,6 +36,12 @@
             <label for ="password2" class="form-label" >Reintroduzca password</label>
 
         </div> 
+        <div class="form-floating mb-1 mt-1">
+            <input type="username" class="form-control" id="user" name="user" value = "<?=$username?>"  readonly>
+
+        </div> 
+        
+        
         <div class="form-floating mb-1 mt-1">    
                 <input class="btn btn-primary" type="submit" name= "submit" value="Submit"> 
         <!-- > value es el txt que muestra el boton. Es "Enviar" por defecto. 

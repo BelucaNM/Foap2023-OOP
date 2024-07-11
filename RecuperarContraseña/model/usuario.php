@@ -53,19 +53,39 @@ class usuario extends connection {
             $stmt = null;
             return $result;
         }
-        protected function checkUserByEmail($email){
-            $error = 0;
+    protected function checkUserByEmail($email){
+            
             $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE email = ?");
-            if(!$stmt->execute(array( $email))){
+            $result = $stmt->execute(array($email));
+            if(!$result){
                 $error = 1;
-                }
-            if($stmt->rowCount()= 0){
-                $error = 2;
-                }
+            }else{
+                if($stmt->rowCount()= 0){
+                $error = 2;}
+            };
+            $array [0] =$error;
+            $array [1] =$result;
             $stmt = null;
-            return $error;
-        }      
+            return $array;
+            }
 
-}  
+    public function updatePassword($email, $password) {
+            
+                $result = true;
+                $stmt = $this->connect()->prepare("UPDATE usuarios SET password = ? WHERE email = ?");
+                $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+    
+                if(!$stmt->execute(array($hashedPwd, $email))){
+                    $result = false;
+                }
+               
+                $stmt = null;
+                return $result;
+            }
+
+
+    }      
+
+
     
 ?>

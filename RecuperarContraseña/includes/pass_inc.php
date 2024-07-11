@@ -16,7 +16,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
 
     
     $passContr= new usuarioContr("", $password1,$password2);
-    $passContr->updatePassword();
+    $passContr->valUpdatePassword();
               
    
 };

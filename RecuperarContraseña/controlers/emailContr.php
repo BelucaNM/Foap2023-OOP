@@ -28,16 +28,19 @@ class emailContr extends usuario {
 
             //chequea email existe en BD
 
-            $error = $this->checkUserByEmail($this->email);
-            if ($error = 1) { header("Location: ../views//introducirEmail.html?error=FailedStmt");
+            $result = $this->checkUserByEmail($this->email);
+            if ($result[0] = 1) { header("Location: ../views/introducirEmail.html?error=FailedStmt");
                             exit();}
-            if ($error = 2) { header("Location: ../views//introducirEmail.html?error=EmailDoesNotExist");
+            if ($error[0] = 2) { header("Location: ../views/introducirEmail.html?error=EmailDoesNotExist");
                             exit();}
                    
-                           
-             // si todo esta bien, se llama a NewPassword.html
-                    
-            header("Location: ../views/users_register.php?error=FailedStmt");
+            // aqui tendria que crar un token en BD 
+            
+                        
+            // si todo esta bien, continua en email_inc
+            // 
+            return $error[1]; // es el user
+            
         }
 
         

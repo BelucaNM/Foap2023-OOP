@@ -7,7 +7,7 @@ class usuarioContr extends usuario {
     private $email;
     private $recordar;
 
-    public function __construct($username, $password1,$password2="",$email="") {
+    public function __construct($username="", $password1,$password2="",$email="") {
                 $this->username = $username;
                 $this->password1 = $password1;
                 $this->password2 = $password2;
@@ -47,13 +47,7 @@ class usuarioContr extends usuario {
             $this->recordar = $recordar;
             }
 
-    private function emptyInput(){
-            $result = false;
-            if (empty($this->username) || empty($this->password1) || empty($this->password2) || empty($this->email)){
-                $result = true;
-            }
-            return $result;
-            }
+
             
     Public function signupUser(){
             // validaciones
@@ -101,14 +95,64 @@ class usuarioContr extends usuario {
             
         }
     }
-        
+    
+    private function emptyInput(){
+        $result = false;
+        if (empty($this->username) || empty($this->password1) || empty($this->password2) || empty($this->email)){
+            $result = true;
+        }
+        return $result;
+        }
     private function emptyInputDos(){
         $result = false;
         if (empty($this->username) || empty($this->password1)){
             $result = true;
         }
         return $result;
-    }    
+    }
+    Public function valUpdatePassword(){
+        // validaciones
+      
+
+        if ($this->emptyInputTres() == true){
+            echo " la entrada está vacia";
+            header ("location: ../views/introducirPass.html?error=EmptyInput"); 
+            exit();
+            }
+            
+        if ($this->password1 != $this->password2){
+            echo " las contraseñas no coinciden";
+            header ("location: ../views/introducirPass.html?error=PasswordsDontMatch"); 
+            exit();
+            }
+
+            
+        
+        $result = $this->updatePassword($this->username,$this->password1); // en usuario.php
+        
+        if (!$result) {
+                echo " no se ha podido hacer la actualización";
+                header ("location: ../views/login.html?error=FailedStmt");
+                exit();
+        } else {
+                echo " actualización realizada con éxito";
+                header ("location: ../views/login.html?error=errorNone");
+                exit();
+            }
+        
+   
+        //setUser to BD
+
+        
+    }
+
+    private function emptyInputTres(){
+        $result = false;
+        if ( empty($this->password1) || empty($this->password2)){
+            $result = true;
+        }
+        return $result;
+        }    
 
     public function login(){
         // validaciones

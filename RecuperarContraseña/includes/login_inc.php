@@ -18,7 +18,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['signIn']) ){// Valid
 
     
     $loginContr= new usuarioContr($username, $password);
-    $loginContr->setRecordar($recordar);
+//    $loginContr->setRecordar($recordar);
     $loginContr->login();
               
    
