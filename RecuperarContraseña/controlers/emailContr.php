@@ -1,84 +1,59 @@
 
 <?php
-class loginContr extends usuario {
-        private $username;
-        private $password;
-        private $recordar;
-        
+class emailContr extends usuario {
+        private $email;
 
-        public function __construct($username, $password,$recordar) {
-                $this->username = $username;
-                $this->password = $password;
-                $this->email = $recordar;
+        public function __construct($email) {
+                $this->username = $email;
+                
                 } 
         public function __destruct() { 
                     echo "Se ha destruido el registro";
                 }
-        public function getUsername() {
-                return $this->username;
+        public function getEmail() {
+                return $this->email;
                 }
-        public function getPassword() {
-            return $this->password;
-            }
-        public function getRecordar() {
-             return $this->recordar;
-            }
         
-        public function setUsername($username) {
-            $this->username = $username;
+        public function setEmail($email) {
+            $this->email = $email;
             }
-        public function setPassword($password) {
-            $this->password = $password;
-            }
+      
         
-        public function setRecordar($recordar) {
-            $this->recordar = $recordar;
-            }
-        
-        Public function login(){
+        Public function forgotPassword(){
             // validaciones
 
-            if ($this->emptyInput() == true){
-                header ("location: ../vista/login.html?error=EmptyInput"); 
+            if (!$this->emptyInput()){
+                header ("location: ../views/introducirEmail.html?error=EmptyEmail"); 
                 exit();}
 
-            //chequea user/password en BD
+            //chequea email existe en BD
 
-            if (!$this->checkPassword()) {
-                    header ("location: ../vista/registro.html?error=wrongPassword");
-                    exit();
-                }
-            
+            $error = $this->checkUserByEmail($this->email);
+            if ($error = 1) { header("Location: ../views//introducirEmail.html?error=FailedStmt");
+                            exit();}
+            if ($error = 2) { header("Location: ../views//introducirEmail.html?error=EmailDoesNotExist");
+                            exit();}
+                   
+                           
+             // si todo esta bien, se llama a NewPassword.html
+                    
+            header("Location: ../views/users_register.php?error=FailedStmt");
         }
+
+        
         
         private function emptyInput(){
             $result = false;
-            if (empty($this->username) || empty($this->password) ){
+            if (empty($this->email)){
                 $result = true;
             }
             return $result;
         }
-        private function checkPassword(){
-            $result = $this->checkPass($this->username,$this->password);
-            return $result;
-        }
-        private function openSession(){
-            session_start([
-                'use_only_cookies'=> 1,
-                'cookie_lifetime'=> 0,
-                'cookie_secure'=> 1,
-                'cookie_httponly'=> 1
-            ]);
-            
-            $_SESSION["usuario"] = $this->username; // inicia session
-            $cookie_name ="remember_me[0]";
-                $cookie_value = $this->username;
-                $cookie_expiry_time = time() + (24*3600); // un dia
-                setcookie($cookie_name,$cookie_value,$cookie_expiry_time,"/","",true,true);
-
-            
+        
+       
+                    
         }
 
-    }            
+               
         
 ?>    

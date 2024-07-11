@@ -53,7 +53,7 @@ class usuario extends connection {
             $stmt = null;
             return $result;
         }
-        protected function existEmail($email){
+        protected function checkUserByEmail($email){
             $error = 0;
             $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE email = ?");
             if(!$stmt->execute(array( $email))){
