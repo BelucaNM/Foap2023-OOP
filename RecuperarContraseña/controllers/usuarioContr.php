@@ -178,7 +178,7 @@ class usuarioContr extends usuario {
                 exit();
         } else {
                 echo " actualización realizada con éxito";
-//                header ("location: ../views/login.html?error=errorNone");
+                header ("location: ../views/login.html?error=errorNone");
                 exit();
             }
         //setUser to BD
