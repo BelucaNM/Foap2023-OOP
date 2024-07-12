@@ -6,12 +6,14 @@ class usuarioContr extends usuario {
     private $password2;
     private $email;
     private $recordar;
+    private $token;
 
-    public function __construct($username="", $password1,$password2="",$email="") {
+    public function __construct($username="", $password1,$password2="",$email="",$token="") {
                 $this->username = $username;
                 $this->password1 = $password1;
                 $this->password2 = $password2;
                 $this->email = $email;
+                $this->token = $token;
                 } 
     public function __destruct() { 
             echo "Se ha destruido el registro";
@@ -28,6 +30,9 @@ class usuarioContr extends usuario {
     public function getEmail() {
             return $this->email;
             }
+    public function getToken() {
+                return $this->token;
+                }
     public function getRecordar() {
             return $this->recordar;
             }
@@ -46,6 +51,9 @@ class usuarioContr extends usuario {
     public function setRecordar($recordar) {
             $this->recordar = $recordar;
             }
+     public function setToken($token) {
+                $this->token = $token;
+                }
 
     private function emptyInput(){
         $result = false;
@@ -155,22 +163,48 @@ class usuarioContr extends usuario {
             header("Location: ../views/login.html?error=none");
             }
         }
-    Public function valUpdatePassword(){
+    protected function valUpdatePassword(){
         // validaciones
+
        if ($this->emptyInputTres() == true){
+        
             echo " la entrada está vacia";
-            header ("location: ../views/introducirPass.php?error=EmptyInput"); 
+            header ("location: ../views/introducirPass.php?error=EmptyInput?token=this->getToken()"); 
             exit();
             }
             
         if ($this->password1 != $this->password2){
             echo " las contraseñas no coinciden";
-            header ("location: ../views/introducirPass.php?error=PasswordsDontMatch"); 
+            header ("location: ../views/introducirPass.php?error=PasswordsDontMatch?token=this->getToken()"); 
             exit();
             }
+        
+        // COMPROBAR QUE EL TOKEN EXISTE Y NO ESTA CADUCADO
+        // checkToken
+        // devuelve 1 si error en statement
+        // devuelve 2 si token no existe
+        // devuelve 3 si token esta caducado
+        $result = $this->checkToken($this->token);
+        if ($result == 1) {
+            echo " el stmt es incorrecto";
+            header ("location: ../views/introducirPass.html?error=FailedStmt");
+        exit();
+        }
+        if ($result == 2) { 
+            echo " el token  no existe";
+            header ("location: ../views/introducirPass.html?error=tokenNotExist"); 
+            exit();
+        }
+        if ($result == 3) {
+            echo " el token está caducado";
+            header ("location: ../views/introducirPass.html?error=tokenExpired"); 
+            exit();
+        }
 
-        $result = $this->updatePassword($this->email,$this->password1); // en usuario.php
-        echo $this->email;
+
+
+        $result = $this->updatePassword($this->token,$this->password1); // en usuario.php
+        echo $this->token;
         echo $this->password1;
         if (!$result) {
                 echo " no se ha podido hacer la actualización";

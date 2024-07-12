@@ -74,19 +74,53 @@ class usuario extends connection {
             return $array;
             }
 
-    public function updatePassword($email, $password) {
+    protected function updateConToken($email,$token) {
+            
+        $result = true;
+        $stmt = $this->connect()->prepare("UPDATE usuarios SET token = ? WHERE email = ?");
+               
+        if(!$stmt->execute(array($token,$email))){
+                    $result = false;
+        }
+                
+        $stmt = null;
+        return $result;
+        }
+
+    public function updatePassword($token, $password) {
             
                 $result = true;
-                $stmt = $this->connect()->prepare("UPDATE usuarios SET password = ? WHERE email = ?");
+                $stmt = $this->connect()->prepare("UPDATE usuarios SET password = ?, token=null, deadLine=null WHERE token = ?");
                 $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
     
-                if(!$stmt->execute(array($hashedPwd, $email))){
+                if(!$stmt->execute(array($hashedPwd, $token))){
                     $result = false;
                 }
                
                 $stmt = null;
                 return $result;
             }
+     protected function checkToken($token){
+                echo $token;
+                $error = 0;
+                $stmt = $this->connect()->prepare("SELECT deadLineDiff(MINUT,deadLine,now()) as diff FROM usuarios WHERE token = ?;");
+    
+                if (!$stmt->execute(array($token))){
+                    $error = 1;
+                }else{
+                    if( $stmt->rowCount() >0) {
+                        $tiempo = $stmt->fetch();
+                        if($tiempo[0]['diff'] > 30){  // diferencia mayor ede 30 minutos que es tiempo de validez del token
+                            $error = 3;
+                        }
+                    }else{
+                        $error = 2;
+                    }
+                };
+                
+                $stmt = null;
+                return $error;
+                }
 
 
     }      

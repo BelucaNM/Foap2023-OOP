@@ -34,13 +34,22 @@ class emailContr extends usuario {
                             exit();}
             if ($result[0] == 2) { header("Location: ../views/introducirEmail.html?error=EmailDoesNotExist");
                             exit();}
-                   
-            // aqui tendria que crear un token en BD 
             
-                        
-            // si todo esta bien, continua en email_inc
-            // 
-            return $result[1]; // es el user
+            // $result[1]  es el username           
+            // crear un token 
+            $token = bin2hex(random_bytes(16));
+           
+            //actualiza registro to DB
+            if (!$this->updateConToken($this->email,$token)) {
+                header("Location: ../views/introducirEmail.html?error=FailedStmt");     
+                exit();
+            } else {
+                $result[2]=$token;
+
+                // si todo esta bien, continua en email_inc
+                
+                return $result[2]; // es el token
+            }
            
         }
         

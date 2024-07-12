@@ -10,9 +10,10 @@
 <body>
     <?php
         echo "hola";
-        if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['email']) ){// Validaciones
+        $token = "";
+        if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['token']) ){// Validaciones
     
-            $email = $_GET['email'];
+            $token = $_GET['token'];
             print_r($_GET);
         };
 
@@ -37,7 +38,7 @@
 
         </div> 
         <div class="form-floating mb-1 mt-1">
-            <input type="email" class="form-control" id="email" name="email" value="<?=$email;?>"  readonly  >
+            <input type="text" class="form-control" id="token" name="token" value="<?=$token;?>"  readonly  >
 
         </div> 
         

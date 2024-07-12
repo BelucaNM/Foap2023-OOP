@@ -7,7 +7,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     
     $password1 = $_POST["password1"];
     $password2 = $_POST["password2"];
-    $email=$_POST["email"];
+    $token=$_POST["token"];
     
 
 
@@ -19,7 +19,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     require "../controllers/usuarioContr.php";
 
     
-    $passContr= new usuarioContr("", $password1,$password2,$email);
+    $passContr= new usuarioContr("", $password1,$password2,"",$token);
     $passContr->valUpdatePassword();
               
    

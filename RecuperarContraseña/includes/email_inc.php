@@ -23,7 +23,9 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     require "../controllers/emailContr.php";
     
     $emailContr= new emailContr($email);
-    $user = $emailContr->forgotPassword();
+    $token = $emailContr->forgotPassword();
+
+    // continua si no hay error en creación del token 
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();
@@ -39,8 +41,8 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     $mail->Subject = "Recuperar Contraseña Foap2023-OOP/blog";
 
 //Replace the plain text body with one created manually
-    $link= "C:\xampp\htdocs\Foap2023-OOP\RecuperarContraseña\views\introducirPass.html?email=$email;"; // aqui tendria que poner el token?
-    $mail->Body = "Hola $user,\n\nPara recuperar tu contraseña,
+    $link= "C:\\xampp\htdocs\Foap2023-OOP\RecuperarContrase\ña\\views\introducirPass.php?token=$token;"; // aqui tendria que poner el token?
+    $mail->Body = "Hola,\n\nPara recuperar tu contraseña,
     haz click en el siguiente enlace:\n\n$link\n\nSi no has solicitado este
     correo, puedes ignorarlo.\n\nSaludos,\n\nFoap2023-OOP";
 
@@ -51,8 +53,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     echo 'Message sent!';
     }
 // vuelve a login
-    header("Location: ../views/login.html");
-              
+    header("Location: ../views/login.html");              
    
 };
     
