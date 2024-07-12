@@ -1,12 +1,3 @@
-<?php
-if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($GET['user']) ){// Validaciones
-    
-    $username = $GET["user"];
-
-?>
-
-
-
 <html>
 <head>
 		<title> Ejercicio RecuperarContraseña - Introduir Nueva Contraseña</title>
@@ -17,6 +8,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($GET['user']) ){// Validacion
 	
 </head>
 <body>
+    <?php
+        echo "hola";
+        if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['email']) ){// Validaciones
+    
+            $email = $_GET['email'];
+            print_r($_GET);
+        };
+
+    ?>
 
     <h1> Ejercicio Registro OOP Recuperar Password</h1>
     <div class="row">
@@ -37,7 +37,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($GET['user']) ){// Validacion
 
         </div> 
         <div class="form-floating mb-1 mt-1">
-            <input type="username" class="form-control" id="user" name="user" value = "<?=$username?>"  readonly>
+            <input type="email" class="form-control" id="email" name="email" value="<?=$email;?>"  readonly  >
 
         </div> 
         

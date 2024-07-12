@@ -53,18 +53,23 @@ class usuario extends connection {
             $stmt = null;
             return $result;
         }
-    protected function checkUserByEmail($email){
-            
-            $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE email = ?");
-            $result = $stmt->execute(array($email));
-            if(!$result){
+    public function checkUserByEmail($email){
+            echo $email;
+            $error = 0;
+            $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE email = ?;");
+
+            if (!$stmt->execute(array($email))){
                 $error = 1;
             }else{
-                if($stmt->rowCount()= 0){
-                $error = 2;}
+                if( $stmt->rowCount() >0) {
+                    $result = $stmt->fetch();
+                    print_r($result);
+                    $array [1] =$result['username'];
+                }else{
+                    $error = 2;
+                }
             };
             $array [0] =$error;
-            $array [1] =$result;
             $stmt = null;
             return $array;
             }

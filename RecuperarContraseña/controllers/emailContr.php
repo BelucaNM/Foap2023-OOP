@@ -4,7 +4,7 @@ class emailContr extends usuario {
         private $email;
 
         public function __construct($email) {
-                $this->username = $email;
+                $this->email = $email;
                 
                 } 
         public function __destruct() { 
@@ -22,28 +22,27 @@ class emailContr extends usuario {
         Public function forgotPassword(){
             // validaciones
 
-            if (!$this->emptyInput()){
+            if ($this->emptyInput()){
                 header ("location: ../views/introducirEmail.html?error=EmptyEmail"); 
                 exit();}
 
             //chequea email existe en BD
-
+            echo "forgotPassword";
             $result = $this->checkUserByEmail($this->email);
-            if ($result[0] = 1) { header("Location: ../views/introducirEmail.html?error=FailedStmt");
+            print_r($result);
+            if ($result[0] == 1) { header("Location: ../views/introducirEmail.html?error=FailedStmt");
                             exit();}
-            if ($error[0] = 2) { header("Location: ../views/introducirEmail.html?error=EmailDoesNotExist");
+            if ($result[0] == 2) { header("Location: ../views/introducirEmail.html?error=EmailDoesNotExist");
                             exit();}
                    
-            // aqui tendria que crar un token en BD 
+            // aqui tendria que crear un token en BD 
             
                         
             // si todo esta bien, continua en email_inc
             // 
-            return $error[1]; // es el user
-            
+            return $result[1]; // es el user
+           
         }
-
-        
         
         private function emptyInput(){
             $result = false;
@@ -52,11 +51,7 @@ class emailContr extends usuario {
             }
             return $result;
         }
-        
-       
-                    
-        }
-
-               
+                     
+    }
         
 ?>    

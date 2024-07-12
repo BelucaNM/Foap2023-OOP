@@ -1,3 +1,4 @@
+
 <?php
 
 print_r($_POST);
@@ -6,8 +7,11 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     
     $password1 = $_POST["password1"];
     $password2 = $_POST["password2"];
-
+    $email=$_POST["email"];
     
+
+
+    print_r($_POST);
 
     echo 'Creando instancia de registro <br>';
     require "../model/connection.php";
@@ -15,10 +19,9 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     require "../controllers/usuarioContr.php";
 
     
-    $passContr= new usuarioContr("", $password1,$password2);
+    $passContr= new usuarioContr("", $password1,$password2,$email);
     $passContr->valUpdatePassword();
               
    
 };
-    
 ?>

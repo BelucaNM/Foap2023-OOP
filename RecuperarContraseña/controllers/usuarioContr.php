@@ -47,7 +47,13 @@ class usuarioContr extends usuario {
             $this->recordar = $recordar;
             }
 
-
+    private function emptyInput(){
+        $result = false;
+        if (empty($this->username) || empty($this->password1) || empty($this->password2) || empty($this->email)){
+            $result = true;
+            }
+        return $result;
+        }
             
     Public function signupUser(){
             // validaciones
@@ -68,7 +74,7 @@ class usuarioContr extends usuario {
 
             if ($this->emptyInput() == true){
                 echo " la entrada es vacia";
-                header ("location: ../vista/signup.html?error=EmptyInput"); 
+                header ("location: ../views/signup.html?error=EmptyInput"); 
                 exit();
                 }
 
@@ -76,11 +82,11 @@ class usuarioContr extends usuario {
             $result = $this->checkUser($this->username,$this->email); // en usuario.php
             if ($result == 2) {
                     echo " el username ya existe";
-                    header ("location: ../vista/signup.html?error=UsernameTaken");
+                    header ("location: ../views/signup.html?error=UsernameTaken");
                     exit();
                 } else  {if ($result == 1) {
                     echo " el stmt es incorrecto";
-                    header ("location: ../vista/signup.html?error=FailedStmt");
+                    header ("location: ../views/signup.html?error=FailedStmt");
                     exit();
                 }
             
@@ -89,77 +95,27 @@ class usuarioContr extends usuario {
 
             if (!$this->setUser($this->username, $this->password1, $this->email)) { // en usuario.php
                 echo " el stmt es incorrecto";
-                header ("location: ../vista/signup.html?error=FailedStmt");
+                header ("location: ../views/signup.html?error=FailedStmt");
                 exit();
             }
             
         }
     }
     
-    private function emptyInput(){
-        $result = false;
-        if (empty($this->username) || empty($this->password1) || empty($this->password2) || empty($this->email)){
-            $result = true;
-        }
-        return $result;
-        }
     private function emptyInputDos(){
         $result = false;
         if (empty($this->username) || empty($this->password1)){
+            echo "vacios";
             $result = true;
         }
         return $result;
     }
-    Public function valUpdatePassword(){
-        // validaciones
-      
-
-        if ($this->emptyInputTres() == true){
-            echo " la entrada está vacia";
-            header ("location: ../views/introducirPass.html?error=EmptyInput"); 
-            exit();
-            }
-            
-        if ($this->password1 != $this->password2){
-            echo " las contraseñas no coinciden";
-            header ("location: ../views/introducirPass.html?error=PasswordsDontMatch"); 
-            exit();
-            }
-
-            
-        
-        $result = $this->updatePassword($this->username,$this->password1); // en usuario.php
-        
-        if (!$result) {
-                echo " no se ha podido hacer la actualización";
-                header ("location: ../views/login.html?error=FailedStmt");
-                exit();
-        } else {
-                echo " actualización realizada con éxito";
-                header ("location: ../views/login.html?error=errorNone");
-                exit();
-            }
-        
-   
-        //setUser to BD
-
-        
-    }
-
-    private function emptyInputTres(){
-        $result = false;
-        if ( empty($this->password1) || empty($this->password2)){
-            $result = true;
-        }
-        return $result;
-        }    
-
     public function login(){
         // validaciones
 
         if ($this->emptyInputDos() == true){
             echo " la entrada es vacia";    
-            header ("location: ../vista/login.html?error=EmptyInput"); 
+            header ("location: ../views/login.html?error=EmptyInput"); 
             exit();
         }
         // chequea user/password en BD
@@ -167,17 +123,17 @@ class usuarioContr extends usuario {
              // ver errores diferentes
         if ($result == 1) {
             echo " el stmt es incorrecto";
-            header ("location: ../vista/login.html?error=FailedStmt");
+            header ("location: ../views/login.html?error=FailedStmt");
         exit();
         }
         if ($result == 2) { 
             echo " el username no existe";
-            header ("location: ../vista/login.html?error=UsernameNotExist"); 
+            header ("location: ../views/login.html?error=UsernameNotExist"); 
             exit();
         }
         if ($result == 3) {
             echo " el password no coincide";
-            header ("location: ../vista/login.html?error=WrongPassword"); 
+            header ("location: ../views/login.html?error=WrongPassword"); 
             exit();
         }
         
@@ -196,9 +152,46 @@ class usuarioContr extends usuario {
                     $cookie_expiry_time = time() + (24*3600); // un dia
                     setcookie($cookie_name,$cookie_value,$cookie_expiry_time,"/","",true,true);
             echo " Creada Sesion ";
-            header("Location: ../vista/login.html?error=none");
+            header("Location: ../views/login.html?error=none");
             }
         }
+    Public function valUpdatePassword(){
+        // validaciones
+       if ($this->emptyInputTres() == true){
+            echo " la entrada está vacia";
+            header ("location: ../views/introducirPass.php?error=EmptyInput"); 
+            exit();
+            }
+            
+        if ($this->password1 != $this->password2){
+            echo " las contraseñas no coinciden";
+            header ("location: ../views/introducirPass.php?error=PasswordsDontMatch"); 
+            exit();
+            }
+
+        $result = $this->updatePassword($this->email,$this->password1); // en usuario.php
+        echo $this->email;
+        echo $this->password1;
+        if (!$result) {
+                echo " no se ha podido hacer la actualización";
+                header ("location: ../views/login.html?error=FailedStmt");
+                exit();
+        } else {
+                echo " actualización realizada con éxito";
+//                header ("location: ../views/login.html?error=errorNone");
+                exit();
+            }
+        //setUser to BD
+
+    }
+
+    private function emptyInputTres(){
+        $result = false;
+        if ( empty($this->password1) || empty($this->password2) || empty($this->email)){
+            $result = true;
+        }
+        return $result;
+        }    
 
     public function validate_input($input)
             { // sanear datos
