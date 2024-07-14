@@ -1,9 +1,21 @@
 
 <?php
 class usuario extends connection {
+        
+        public function setUser($username, $password, $email) {
+            
+            $result = true;
+            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email) VALUES (?,?,?)");
+            
+            $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
-
-    protected function checkUser($username, $email){
+            if(!$stmt->execute(array($username, $hashedPwd, $email))){
+                $result = false;
+            }
+            $stmt = null;
+            return $result;
+        }   
+        protected function checkUser($username, $email){
             $error = 0;
             $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE username = ? OR email = ?");
             if(!$stmt->execute(array($username, $email))){
@@ -16,13 +28,11 @@ class usuario extends connection {
             return $error;
         }
 
-    protected function checkPass($username, $password){
-            
-            echo $username ." ".$password;
+        protected function checkPass($username, $password){
             $error = 0;
             $stmt = $this->connect()->prepare("SELECT password FROM usuarios WHERE username = ?");
 
-            if(!$stmt->execute($username)){
+            if(!$stmt->execute(array($username))){
                 $error = 1;
             }else{
                 if($stmt->rowCount()>0){
@@ -39,22 +49,14 @@ class usuario extends connection {
             $stmt = null;
             return $error;
         }
-  
-    public function setUser($username, $password, $email) {
-            
-            $result = true;
-            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email) VALUES (?,?,?)");
-            
-            $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
-            if(!$stmt->execute(array($username, $hashedPwd, $email))){
-                $result = false;
+       
+        public function baja() {
+            echo "Se ha dado de baja el usuario";
             }
-            
-            $stmt = null;
-            return $result;
-        }      
-
+        public function modificacion() {
+            echo "Se ha modificado el usuario"; 
+            }
 }  
     
 ?>

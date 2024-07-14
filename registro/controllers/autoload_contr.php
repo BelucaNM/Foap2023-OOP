@@ -5,12 +5,12 @@ spl_autoload_register ('myAutoloadControler');
 
 function myAutoloadControler($classname){
     $extension = ".php";
-    $path = "../controlador/";
+    $path = "../controllers/";
 
     $fullpath= $path.$classname.$extension;
 
     if (file_exists($fullpath)) { require_once $fullpath;}
-    else { echo "No existe el archivo ".$fullpath;}  
+    else { echo "No existe el archivo ".$fullpath;} ; 
 
 }
 

@@ -44,22 +44,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo $fotoURL;
     $fotoALT = $_POST["alt"];
     $fecha = new DateTime();
-    $idUsuariol = $_POST["user"];
+    $idUsuario = $_POST["user"];
 
     $fecha = $fecha->format('Y-m-d H:i:s');
 
 
     require "../model/connection.php";
     require "../model/blog.php";
-    require "../controllers/PostContr.php";
+    require "../controllers/BlogContr.php";
 
-
-
-    $post = new PostContr($titulo, $cuerpo, $fotoURL, $fotoALT, $fecha, $idUsuariol);
+    $post = new BlogContr($titulo, $cuerpo, $fotoURL, $fotoALT, $fecha, $idUsuario);
     $post->newpost();
 
-
-    /* 
-        header("Location: ../view/home.php"); */
 
 }

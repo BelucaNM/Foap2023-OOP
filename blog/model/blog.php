@@ -1,7 +1,7 @@
+
 <?php
 
-class blog extends connection
-{
+class blog extends connection{
 
     private $tablaNombre = "blogs";
     public $blogsNumReg = 0;
@@ -28,21 +28,22 @@ class blog extends connection
         return $stmt->fetchAll();
     }
 
-    public function setBlog($titulo, $cuerpo, $fotoURL, $fotoALT, $fecha, $idUsuariol)
-    {
+    public function setBlog($titulo, $cuerpo, $fotoURL, $fotoALT, $fecha, $idUsuariol){
 
-        $result = true;
+        $error = 0;
         $stmt = $this->connect()->prepare("INSERT INTO " . $this->tablaNombre . "(titulo,cuerpo,fotoURL,fotoALT,fecha,usuarios_idUsuario ) VALUES (?,?,?,?,?,?)");
 
-        if (!$stmt->execute(array($titulo, $cuerpo, $fotoURL, $fotoALT, $fecha, $idUsuariol))) {
-            $result = false;
-        }
         if (!$stmt) {
-            $result = false;
+            $error = 1;
         }
-        $stmt = null;
-        return $result;
-    }
-}
 
+        if (!$stmt->execute(array($titulo, $cuerpo, $fotoURL, $fotoALT, $fecha, $idUsuariol))) {
+            $error = 2;
+        }
+     
+        $stmt = null;
+        return $error;
+    
+    }  
+} 
 ?>

@@ -1,8 +1,8 @@
 <?php
 echo 'Creando instancia de tabla de Usuarios <br>';
-require "../modelo/connection.php";
-require "../modelo/usuario.php";
-require "../modelo/tablaUsuarios.php";
+require "../model/connection.php";
+require "../model/usuario.php";
+require "../model/tablaUsuarios.php";
 $repUsuarios = new tablaUsuarios();
 echo "repUsuarios <br>";
 print_r($repUsuarios);
@@ -21,7 +21,7 @@ if ($todos == 1 ) { // error STMT
 <html>
 
 <head>
-    <title> Login ejercicio OOP </title>
+    <title> Login ejercicio OOP Lista Usuarios </title>
     <meta charset="utf-8" >
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
@@ -55,6 +55,7 @@ echo "</table>";
     }
 ?>
  </div>
+ 
 </body>
 </html>              
 

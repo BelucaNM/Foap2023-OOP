@@ -10,17 +10,16 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     $password2 = $_POST["password2"];
 
     echo 'Creando instancia de registro <br>';
-    require "../modelo/connection.php";
-    require "../modelo/usuario.php";
-    require "../controlador/usuarioContr.php";
+    require "../model/connection.php";
+    require "../model/usuario.php";
+    require "../controllers/usuarioContr.php";
 
-//    require "../controlador/autoload_controlador.php";
+//    require "../controllers/autoload_controlador.php";
     $usuarioContr= new usuarioContr($username, $password1, $password2, $email);
     $usuarioContr->signupUser();
 
-    //Volver a la pagina inicial--- 
-//    header("Location: ../vista/signup.html?error=none");
-    header("Location: ../vista/listaUsuarios.php");
+
+//    header("Location: ../views/listaUsuarios.php");
                
     
 };

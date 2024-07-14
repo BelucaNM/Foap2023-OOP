@@ -2,8 +2,9 @@
 // echo 'Creando instancia de posts <br>';
 require "../model/connection.php";
 require "../model/blog.php";
-require "../controllers/PostContr.php";
-$post = new blog();
+require "../controllers/BlogContr.php";
+
+$post = new blogContr();
 $lista = $post->getTodos();
 
 //echo "<br> todos <br>";

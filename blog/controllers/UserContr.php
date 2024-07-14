@@ -122,8 +122,8 @@ class UserContr extends usuario
             $_SESSION["usuario"] = $this->username; //
                         
             echo " Creada Sesion ";
-            header("Location: ../views/home_isabel.php");
-//            header("Location: ../views/home.php");
+            header("Location: ../views/home.php");
+
         }
     }
 

@@ -11,6 +11,8 @@ class connection {
             } catch (PDOException $e) {
                 return "Error: " . $e->getMessage()."<br>";
             }
+
+
         }
     }     
 ?>    

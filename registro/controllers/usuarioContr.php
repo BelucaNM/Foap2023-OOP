@@ -74,19 +74,19 @@ class usuarioContr extends usuario {
 
             if ($this->emptyInput() == true){
                 echo " la entrada es vacia";
-                header ("location: ../vista/signup.html?error=EmptyInput"); 
+                header ("location: ../views/signup.html?error=EmptyInput"); 
                 exit();
                 }
 
                 
             $result = $this->checkUser($this->username,$this->email); // en usuario.php
             if ($result == 2) {
-                    echo " el username ya existe";
-                    header ("location: ../vista/signup.html?error=UsernameTaken");
+                    echo " el username o el email ya existen";
+                    header ("location: ../views/signup.html?error=Username or email Taken");
                     exit();
                 } else  {if ($result == 1) {
                     echo " el stmt es incorrecto";
-                    header ("location: ../vista/signup.html?error=FailedStmt");
+                    header ("location: ../views/signup.html?error=FailedStmt");
                     exit();
                 }
             
@@ -95,10 +95,11 @@ class usuarioContr extends usuario {
 
             if (!$this->setUser($this->username, $this->password1, $this->email)) { // en usuario.php
                 echo " el stmt es incorrecto";
-                header ("location: ../vista/signup.html?error=FailedStmt");
+                header ("location: ../views/signup.html?error=FailedStmt");
                 exit();
             }
-            
+            //Volver a la pagina inicial--- 
+            header("Location: ../views/signup.html?error=none");
         }
     }
         
@@ -115,7 +116,7 @@ class usuarioContr extends usuario {
 
         if ($this->emptyInputDos() == true){
             echo " la entrada es vacia";    
-            header ("location: ../vista/login.html?error=EmptyInput"); 
+            header ("location: ../views/login.html?error=EmptyInput"); 
             exit();
         }
         // chequea user/password en BD
@@ -123,17 +124,17 @@ class usuarioContr extends usuario {
              // ver errores diferentes
         if ($result == 1) {
             echo " el stmt es incorrecto";
-            header ("location: ../vista/login.html?error=FailedStmt");
-        exit();
+            header ("location: ../views/login.html?error=FailedStmt");
+            exit();
         }
         if ($result == 2) { 
             echo " el username no existe";
-            header ("location: ../vista/login.html?error=UsernameNotExist"); 
+            header ("location: ../views/login.html?error=UsernameNotExist"); 
             exit();
         }
         if ($result == 3) {
             echo " el password no coincide";
-            header ("location: ../vista/login.html?error=WrongPassword"); 
+            header ("location: ../views/login.html?error=WrongPassword"); 
             exit();
         }
         
@@ -152,7 +153,7 @@ class usuarioContr extends usuario {
                     $cookie_expiry_time = time() + (24*3600); // un dia
                     setcookie($cookie_name,$cookie_value,$cookie_expiry_time,"/","",true,true);
             echo " Creada Sesion ";
-            header("Location: ../vista/login.html?error=none");
+            header("Location: ../views/listaUsuarios.php");
             }
         }
 

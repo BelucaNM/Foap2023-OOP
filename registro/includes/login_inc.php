@@ -12,12 +12,12 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['signIn']) ){// Valid
     
 
     echo 'Creando instancia de registro <br>';
-    require "../modelo/connection.php";
-    require "../modelo/usuario.php";
-//    require "../controlador/loginContr.php"; lo hacemos sobre el usuario
-    require "../controlador/usuarioContr.php";
+    require "../model/connection.php";
+    require "../model/usuario.php";
+//    require "../controllers/loginContr.php"; lo hacemos sobre el usuario
+    require "../controllers/usuarioContr.php";
 
-//    require "../controlador/autoload_controlador.php"; no lo usamos
+//    require "../controllers/autoload_contr.php"; no lo usamos
     
     $loginContr= new usuarioContr($username, $password);
     $loginContr->setRecordar($recordar);

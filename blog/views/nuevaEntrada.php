@@ -1,43 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Listado de Entradas y Nueva Entrada</title>
-    <link rel="stylesheet" href="css_blog.css">
+    <title>Blog - Nueva Entrada</title>
+    <link rel="stylesheet" type="text/css" href="css_blog.css">
+    
 </head>
 <?php
 session_start();
-$_SESSION["user"] = 1
-    ?>
+$_SESSION["user"] = 1;
+
+?>
 
 <body>
     <header>
         <h1>Blog</h1>
         <nav>
-            <a href="#listado">Listado de Entradas</a>
-            <a href="#nueva">Nueva Entrada</a>
-            <a href="..\includes\logout.php">LogOut</a>
+            <a class="btnStack" href="home.php">Listado de Entradas</a>
+            <a class="btnStack" href="..\includes\logout.php">LogOut</a>
         </nav>
     </header>
 
     <main>
-        <h2>Listado de Entradas</h2>
-        <section id='listado' class='sectionPost    '>
-            <?php include_once ("../includes/retrivepost.php") ?>
-        </section>
-
         <section id="nueva" class="section">
             <h2>Nueva Entrada</h2>
-            <form action="../includes/newpost.php" method="post" enctype="multipart/form-data">
+            <form action="../includes/nuevoPost.php" method="post" enctype="multipart/form-data">
                 <div>
                     <label for="title">Título</label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" id="title" name="title" >
                 </div>
                 <div>
                     <label for="content">Contenido</label>
-                    <textarea id="content" name="content" rows="5" required></textarea>
+                    <textarea id="content" name="content" rows="5" ></textarea>
                 </div>
                 <div>
                     <label for="image">Imagen</label>
@@ -57,9 +53,7 @@ $_SESSION["user"] = 1
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Blog. Todos los derechos reservados.</p>
-    </footer>
+<?php include "footer.php";?>
 </body>
 
 </html>
