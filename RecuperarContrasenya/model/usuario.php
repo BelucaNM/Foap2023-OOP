@@ -39,7 +39,7 @@ class usuario extends connection {
             return $error;
         }
 
-    public function setUser($username, $password, $email) {
+    protected function setUser($username, $password, $email) {
             
             $result = true;
             $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email) VALUES (?,?,?)");
@@ -53,7 +53,7 @@ class usuario extends connection {
             $stmt = null;
             return $result;
         }
-    public function checkUserByEmail($email){
+    protected function checkUserByEmail($email){
             echo $email;
             $error = 0;
             $stmt = $this->connect()->prepare("SELECT username FROM usuarios WHERE email = ?;");
@@ -77,7 +77,7 @@ class usuario extends connection {
     protected function updateConToken($email,$token) {
             
         $result = true;
-        $stmt = $this->connect()->prepare("UPDATE usuarios SET token = ? WHERE email = ?");
+        $stmt = $this->connect()->prepare("UPDATE usuarios SET token = ?, deadLine=now() WHERE email = ?");
                
         if(!$stmt->execute(array($token,$email))){
                     $result = false;
@@ -87,44 +87,40 @@ class usuario extends connection {
         return $result;
         }
 
-    public function updatePassword($token, $password) {
-            
-                $result = true;
-                $stmt = $this->connect()->prepare("UPDATE usuarios SET password = ?, token=null, deadLine=now() WHERE token = ?");
-                $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+    protected function updatePassword($token, $password) {        
+        $result = true;
+        $stmt = $this->connect()->prepare("UPDATE usuarios SET password = ?, token=null, deadLine=now() WHERE token = ?");
+        $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
     
-                if(!$stmt->execute(array($hashedPwd, $token))){
-                    $result = false;
-                }
-               
-                $stmt = null;
-                return $result;
+        if(!$stmt->execute(array($hashedPwd, $token))){
+            $result = false;
             }
+               
+        $stmt = null;
+        return $result;
+        }
+
      protected function checkToken($token){
-                echo $token;
-                $error = 0;
-                $stmt = $this->connect()->prepare("SELECT TIMESTAMPDIFF(minute,deadLine,now()) as diff FROM usuarios WHERE token = ?");
+        echo $token;
+        $error = 0;
+        $stmt = $this->connect()->prepare("SELECT TIMESTAMPDIFF(minute,deadLine,now()) as diff FROM usuarios WHERE token = ?");
     
-                if (!$stmt->execute(array($token))){
-                    $error = 1;
-                }else{
-                    if( $stmt->rowCount() >0) {
-                        $tiempo = $stmt->fetch();
-                        if($tiempo[0]['diff'] > 30){  // diferencia mayor ede 30 minutos que es tiempo de validez del token
-                            $error = 3;
-                        }
-                    }else{
-                        $error = 2;
-                    }
-                };
-                
-                $stmt = null;
-                return $error;
+        if (!$stmt->execute(array($token))){
+            $error = 1;
+        }else{
+            if( $stmt->rowCount() >0) {
+                $tiempo = $stmt->fetch();
+                if($tiempo[0]['diff'] > 30){  // diferencia mayor ede 30 minutos que es tiempo de validez del token
+                    $error = 3;
                 }
+            }else{
+                $error = 2;
+            }
+        };
+                
+        $stmt = null;
+        return $error;
+        }
 
-
-    }      
-
-
-    
+    }         
 ?>
