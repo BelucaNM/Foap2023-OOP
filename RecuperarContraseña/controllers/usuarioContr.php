@@ -163,19 +163,18 @@ class usuarioContr extends usuario {
             header("Location: ../views/login.html?error=none");
             }
         }
-    protected function valUpdatePassword(){
+    public function valUpdatePassword(){
         // validaciones
 
        if ($this->emptyInputTres() == true){
-        
-            echo " la entrada está vacia";
-            header ("location: ../views/introducirPass.php?error=EmptyInput?token=this->getToken()"); 
+           echo " la entrada está vacia";
+            header ('location: ../views/introducirPass.php?error=EmptyInput&token='.$this->token); 
             exit();
             }
             
         if ($this->password1 != $this->password2){
             echo " las contraseñas no coinciden";
-            header ("location: ../views/introducirPass.php?error=PasswordsDontMatch?token=this->getToken()"); 
+            header ("location: ../views/introducirPass.php?error=PasswordsDontMatch&token=".$this->token); 
             exit();
             }
         
@@ -221,7 +220,7 @@ class usuarioContr extends usuario {
 
     private function emptyInputTres(){
         $result = false;
-        if ( empty($this->password1) || empty($this->password2) || empty($this->email)){
+        if ( empty($this->password1) || empty($this->password2) || empty($this->token)){
             $result = true;
         }
         return $result;

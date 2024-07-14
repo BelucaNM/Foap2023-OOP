@@ -90,7 +90,7 @@ class usuario extends connection {
     public function updatePassword($token, $password) {
             
                 $result = true;
-                $stmt = $this->connect()->prepare("UPDATE usuarios SET password = ?, token=null, deadLine=null WHERE token = ?");
+                $stmt = $this->connect()->prepare("UPDATE usuarios SET password = ?, token=null, deadLine=now() WHERE token = ?");
                 $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
     
                 if(!$stmt->execute(array($hashedPwd, $token))){
@@ -103,7 +103,7 @@ class usuario extends connection {
      protected function checkToken($token){
                 echo $token;
                 $error = 0;
-                $stmt = $this->connect()->prepare("SELECT deadLineDiff(MINUT,deadLine,now()) as diff FROM usuarios WHERE token = ?;");
+                $stmt = $this->connect()->prepare("SELECT TIMESTAMPDIFF(minute,deadLine,now()) as diff FROM usuarios WHERE token = ?");
     
                 if (!$stmt->execute(array($token))){
                     $error = 1;
