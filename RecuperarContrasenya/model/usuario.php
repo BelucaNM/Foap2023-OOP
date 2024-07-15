@@ -19,7 +19,7 @@ class usuario extends connection {
    
     protected function checkPass($username, $password){
             $error = 0;
-            $stmt = $this->connect()->prepare("SELECT password FROM usuarios WHERE username = ?;");
+            $stmt = $this->connect()->prepare("SELECT password, cuentaActiva  FROM usuarios WHERE username = ?;");
 
             if(!$stmt->execute(array($username))){
                 $error = 1;
@@ -30,6 +30,7 @@ class usuario extends connection {
                     $hashedPwd = $result['password'];
                     //echo $hashedPwd;
                     if (password_verify($password, $hashedPwd) != 1) {$error = 3;}
+                    if (!$result['cuentaActiva']) {$error = 4;}
                 }else{
                     $error = 2;
                 }

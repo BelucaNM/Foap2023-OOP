@@ -156,6 +156,11 @@ class usuarioContr extends usuario {
             header ("location: ../views/login.html?error=WrongPassword"); 
             exit();
         }
+        if ($result == 4) {
+            echo " la cuenta no está activa";
+            header ("location: ../views/login.html?error=AccountNotActive"); 
+            exit();
+        }
         
         if ($result == 0 ) { 
             // si no hay error abro la session
