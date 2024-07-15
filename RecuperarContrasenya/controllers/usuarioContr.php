@@ -66,7 +66,7 @@ class usuarioContr extends usuario {
     Public function signupUser(){
             // validaciones
           
-/*          $error= false;
+/*          $error= false; // revisar
     
             if (empty ($this->email) || !is_valid_email($this->email) ) { $error = true;};
                         
@@ -81,7 +81,7 @@ class usuarioContr extends usuario {
 */
 
             if ($this->emptyInput() == true){
-                echo " la entrada es vacia";
+                echo " la entrada está vacia";
                 header ("location: ../views/signup.html?error=EmptyInput"); 
                 exit();
                 }
@@ -96,19 +96,31 @@ class usuarioContr extends usuario {
                     echo " el stmt es incorrecto";
                     header ("location: ../views/signup.html?error=FailedStmt");
                     exit();
+                    }
                 }
             
        
             //setUser to BD
+            $this->generateToken();
 
-            if (!$this->setUser($this->username, $this->password1, $this->email)) { // en usuario.php
+            if (!$this->setUser($this->username, $this->password1, $this->email, $this->token)) { // en usuario.php
                 echo " el stmt es incorrecto";
                 header ("location: ../views/signup.html?error=FailedStmt");
                 exit();
+                }
+
+            // si todo esta bien, envia email de activación
+            $err= $this->enviaEmail('activacion'); 
+
+            //check for errors  
+            if (!$err) {
+                header("Location: ../views/signup.html?error=RegisterDone");
+                exit();
+            } else {
+                header("Location: ../views/signup.html?error=FailedSendEmail");
+                exit();
             }
-            
         }
-    }
     
     private function emptyInputDos(){
         $result = false;
@@ -132,7 +144,7 @@ class usuarioContr extends usuario {
         if ($result == 1) {
             echo " el stmt es incorrecto";
             header ("location: ../views/login.html?error=FailedStmt");
-        exit();
+            exit();
         }
         if ($result == 2) { 
             echo " el username no existe";
@@ -155,10 +167,10 @@ class usuarioContr extends usuario {
                 ]);
                 
             $_SESSION["usuario"] = $this->username; // inicia session
-                $cookie_name ="remember_me[0]";
-                    $cookie_value = $this->username;
-                    $cookie_expiry_time = time() + (24*3600); // un dia
-                    setcookie($cookie_name,$cookie_value,$cookie_expiry_time,"/","",true,true);
+            $cookie_name ="remember_me[0]";
+            $cookie_value = $this->username;
+            $cookie_expiry_time = time() + (24*3600); // un dia
+            setcookie($cookie_name,$cookie_value,$cookie_expiry_time,"/","",true,true);
             echo " Creada Sesion ";
             header("Location: ../views/login.html?error=none");
             }
@@ -274,6 +286,64 @@ class usuarioContr extends usuario {
 
             return $is_valid;
             }
+    Private function generateToken(){
+        $this->token = bin2hex(random_bytes(16));
+        }
+        
+    Private function enviaEmail($issue){
+            /*use PHPMailer\PHPMailer\PHPMailer;
+              use PHPMailer\PHPMailer\Exception;
+              use PHPMailer\PHPMailer\SMTP;*/
+
+            require '../../PHPMailer/src/Exception.php';
+            require '../../PHPMailer/src/PHPMailer.php';
+            require '../../PHPMailer/src/SMTP.php';
+            
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            $mail->isSMTP();
+            $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+            $mail->Host = 'smtp.gmail.com';
+            $mail->Port = 465;
+            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+            $mail->SMTPAuth = true;
+            $mail->Username = 'foap408@gmail.com';
+            $mail->Password = 'dyrv alyq ojiq acyd';
+        //    $mail->addAddress('$this->email', 'Usuario Blog');
+            $mail->addAddress('beluca.navarrina@gmail.com', 'Beluca');
+            $mail->Subject = "Recuperar Contraseña Foap2023-OOP/blog";
+
+        //Replace the plain text body with one created manually
+
+            
+            
+        //  Para enviar texto plano     
+            
+            if ($issue == 'forgotPassword'){
+                $mail->Body = "Hola,\n\nPara recuperar tu contraseña, haz click en el enlace siguiente. Si no has solicitado este
+                    correo, puedes ignorarlo.\n\nSaludos,\n\nFoap2023-OOP";
+                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/views/introducirPass.php?token='.$this->token; // aqui hay que enviar el token
+                $mail->msgHTML("<a href='".$link."'> Link para crear nueva contraseña</a>"); 
+                };
+            if ($issue == 'activacion'){
+                $mail->Body = "Hola,\n\nPara activar tu cuenta, haz click en el enlace siguiente. Si no has solicitado este
+                    correo, puedes ignorarlo.\n\nSaludos,\n\nFoap2023-OOP";
+                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/includes/activacion_inc.php?token='.$this->token; // aqui hay que enviar el token
+                $mail->msgHTML("<a href='".$link."'> Link para activar su cuenta </a>"); 
+                };
+
+
+            $err = 0;
+            if (!$mail->send()) {
+                echo 'Mailing Error: ' . $mail->ErrorInfo;
+                $err = 1;
+            } else {
+                echo 'Message sent!';
+            }
+            return $err;
+        } 
+
+    
+    
 
     }            
         

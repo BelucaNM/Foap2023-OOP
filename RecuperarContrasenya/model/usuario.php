@@ -39,14 +39,14 @@ class usuario extends connection {
             return $error;
         }
 
-    protected function setUser($username, $password, $email) {
+    protected function setUser($username, $password, $email, $token="") {
             
             $result = true;
-            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email) VALUES (?,?,?)");
+            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email, token, deadLine=now()) VALUES (?,?,?,?)");
             
             $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
-            if(!$stmt->execute(array($username, $hashedPwd, $email))){
+            if(!$stmt->execute(array($username, $hashedPwd, $email, $token))){
                 $result = false;
             }
            
@@ -96,6 +96,17 @@ class usuario extends connection {
             $result = false;
             }
                
+        $stmt = null;
+        return $result;
+        }
+
+    protected function activaCuenta($token) {        
+        $result = true;
+        $stmt = $this->connect()->prepare("UPDATE usuarios SET cuentaActiva = 1, token=null, deadLine=now() WHERE token = ?");
+        if(!$stmt->execute(array($token))){
+            $result = false;
+            }
+             
         $stmt = null;
         return $result;
         }

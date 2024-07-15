@@ -8,6 +8,17 @@
 	
 </head>
 <body>
+<?php
+ 
+    if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['error']) ){// Validaciones
+
+        if ( $_GET['error'] == 'RegisterDone') {
+            echo '<div class="alert alert-success" role="alert">Por favor, compruebe su email. Recibirá un correo de activación.</div>';
+            };
+        
+    };
+
+?>
 
     <h1> Ejercicio Registro OOP</h1>
     <div class="row">
@@ -45,7 +56,7 @@
     </div>
 
     <div class = "container pt-3 pb-3 mt-3 bg-light shadow-lg">
-        <a class = "btn btn-lg btn-link" href = "formLogin.php?nuevoRegistro=1"> Salir de Registro </a>
+        <a class = "btn btn-lg btn-link" href = "login.php"> Salir de Registro </a>
     </div>
     </div>
     <div class="col-2"></div>

@@ -51,9 +51,9 @@ class emailContr extends usuario {
                             exit();}
             
             // $result[1]  es el username           
-            // crear un token 
-            $this->setToken(bin2hex(random_bytes(16)));
-            
+         
+        //  $this->setToken(bin2hex(random_bytes(16))); //  crear un token
+            $this->generateToken();
            
             //actualiza registro to DB
             if (!$this->updateConToken($this->email,$this->token)) {
@@ -61,19 +61,18 @@ class emailContr extends usuario {
                 exit();} 
                 
             // si todo esta bien, envia email
-            $err= $this->enviaEmail(); 
+            $err= $this->enviaEmail('forgotPassword'); 
 
             //check for errors  
             if (!$err) {
-                header("Location: ../views/login.html?error=none");
+                header("Location: ../views/login.html?error=Message sent! Please check your email.");
                 exit();
             } else {
                 header("Location: ../views/login.html?error=FailedSendEmail");
                 exit();}                            
         }
-            
          
-        Private function enviaEmail(){
+        Private function enviaEmail($issue){
             /*use PHPMailer\PHPMailer\PHPMailer;
               use PHPMailer\PHPMailer\Exception;
               use PHPMailer\PHPMailer\SMTP;*/
@@ -97,12 +96,20 @@ class emailContr extends usuario {
 
         //Replace the plain text body with one created manually
 
-            $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/views/introducirPass.php?token='.$this->token; // aqui hay que enviar el token
-            $mail->msgHTML("<a href='".$link."'> Link para crear nueva contraseña</a>");
-        /*  Para enviar texto plano     
+            
+            
+        //  Para enviar texto plano     
             $mail->Body = "Hola,\n\nPara recuperar tu contraseña,
-            haz click en el siguiente enlace:\n\n$link\n\nSi no has solicitado este
-            correo, puedes ignorarlo.\n\nSaludos,\n\nFoap2023-OOP";  */
+            haz click en el enlace siguiente. Si no has solicitado este
+            correo, puedes ignorarlo.\n\nSaludos,\n\nFoap2023-OOP";
+            if ($issue == 'forgotPassword'){
+                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/views/introducirPass.php?token='.$this->token; // aqui hay que enviar el token
+                $mail->msgHTML("<a href='".$link."'> Link para crear nueva contraseña</a>"); 
+                };
+            if ($issue == 'activacion'){
+                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/includes/activacion_inc.php?token='.$this->token; // aqui hay que enviar el token
+                $mail->msgHTML("<a href='".$link."'> Link para activar su cuenta </a>"); 
+                };
 
             $err = 0;
             if (!$mail->send()) {
@@ -113,5 +120,35 @@ class emailContr extends usuario {
             }
             return $err;
         }
+
+        private function generateToken(){
+            $this->token = bin2hex(random_bytes(16));
+
+        }
+        public function activateAccount(){
+            $result = $this->checkToken($this->token);
+            if ($result == 1) {
+                echo " el stmt es incorrecto";
+                header ("location: ../includes/activacion_inc.php?error=FailedStmt");
+            exit();
+            }
+            if ($result == 2) { 
+                echo " el token  no existe";
+                header ("location: ../includes/activacion_inc.php?error=tokenNotExist"); 
+                exit();
+            }
+            if ($result == 3) {
+                echo " el token está caducado";
+                header ("location: ../includes/activacion_inc.php?error=tokenExpired"); 
+                exit();
+            }
+    
+            if(!$this->activaCuenta($this->token)){
+                header("Location: ../includes/activacion_inc.php?error=failedStmt&token=$this->token");
+                exit();
+            }
+            header("Location: ../view/login.php?error=none");
+
+        }   
     }            
 ?>
