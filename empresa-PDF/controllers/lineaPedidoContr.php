@@ -20,7 +20,7 @@ class lineaPedidoContr extends lineaPedido {
                 $this->import = $import;
                 } 
     public function __destruct() { 
-            echo "Se ha destruido el registro";
+//            echo "Se ha destruido el registro";
             }
     public function getNumComanda() {
             return $this->numcomanda;

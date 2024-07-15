@@ -21,9 +21,9 @@
         
     }
     #company {
-        background-color: #f5f5f5;
+    /*    background-color: #f5f5f5; */
         padding: 20px;
-       text-align :right;
+        text-align :right;
         font-size: 12px;
         line-height:  4px;
         height: 150px;
@@ -40,8 +40,9 @@
     #pedidoLineas {
         background-color: white;
         padding: 20px;
-        text-align :left;
+        text-align :right;
         font-size: 12px;
+        width: 598px;
 
 
     }
@@ -54,23 +55,31 @@
 <body>
 <?php
 require "../includes/pedido_inc.php";
+
 ?>
-
-
 <div id = "cabecera">
-    <div id = "imagen">
-        <img  src='images/150x150.png' alt='' class=''>
-    </div>      
-    <div id = "company">
-        <h2>Shira Electric Power Company</h2>
-        <br>   
-        <h4>Company representative name</h4>
-        <h4>Company Address</h4>
-        <h4>Tax Id</h4>
-        <h4>phone</h4>
-        <h4>fax</h4>
-    </div>
+<table id="pedidoLineas">
+<tr>
+    <td>
+        <div id = "imagen">
+            <img  src='../images/150x150.png' alt='' class=''>
+        </div>
+    </td>
+    <td>      
+        <div id = "company">
+            <h2>Shira Electric Power Company</h2>
+            <br>   
+            <h4>Company representative name</h4>
+            <h4>Company Address</h4>
+            <h4>Tax Id</h4>
+            <h4>phone</h4>
+            <h4>fax</h4>
+        </div>
+    </td>
+</tr>
+</table>
 </div>
+
 <div id = "FromTo">
     <div>
         <p><strong>From:</strong></p>
@@ -78,7 +87,7 @@ require "../includes/pedido_inc.php";
     </div>
     <div>
         <p><strong>To:</strong></p>
-        <p>Limblun: Barrio Comercial</p>
+        <p><?=$pedido[0]['nom']?></p>
     </div>
    
 </div>
@@ -97,6 +106,7 @@ require "../includes/pedido_inc.php";
     <?php
 
     foreach ($lineas as $key => $linea) {
+//        print_r( $linea);
         echo "<tr class = 'row'>";
             echo "<td>$linea[lin_com]</td>";
             echo "<td>$linea[descr]</td>";
@@ -113,21 +123,21 @@ require "../includes/pedido_inc.php";
         <td></td>
         <td></td>
         <td></td>
-        <td>Subotal$</td>
-        <td>$1635.00</td>
+        <td>Subtotal$</td>
+        <td text-align="right">1635.00</td>
     <tr class = 'row'>
         <td></td>
         <td></td>
         <td></td>
         <td>Tax $</td>
-        <td>294.3</td>
+        <td text-align="right">294.3</td>
     </tr>
     <tr class = 'row fondoGris'> 
         <td></td>
         <td></td>
         <td></td>
         <td>Total $</td>
-        <td>$1929.3</td>
+        <td text-align="right"><?=$pedido[0]['import_total']?></td>
     </tr>
   </tfoot>
 </table>

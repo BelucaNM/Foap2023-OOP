@@ -1,15 +1,14 @@
 <?php
-
 // The Composer autoloader
-require_once '../dompdf/vendor/autoload.php';
+require_once '../../dompdf/vendor/autoload.php';
 // Reference the Dompdf namespace
 use Dompdf\Dompdf; 
 // Instantiate and use the dompdf class
 $dompdf = new Dompdf();
 
 ob_start();
-include "factura.php"; // si es dinámica , para que el PHP sea interpretado
-$html = ob_get_contents();
+include "invoice.php"; // si es dinámica , para que el PHP sea interpretado
+$html_file = ob_get_contents();
 ob_end_clean();
 
 // Load HTML content to generate a PDF
@@ -26,7 +25,7 @@ $dompdf->render();
 // Devuelve el archivo PDF en forma de cadena.
 $pdf_string = $dompdf->output(); 
 // Nombre y ubicación del archivo PDF
-$pdf_file_loc = 'invoicesPDF/test0.pdf';
+$pdf_file_loc = '../invoicesPDF/'.$numcomanda.'.pdf';
 // Guardar el PDF generado en la ubicación deseada con un nombre personalizado
 file_put_contents($pdf_file_loc, $pdf_string);
 //echo ' despues de "contents"';
