@@ -77,7 +77,7 @@ class usuarioContr extends usuario {
             if (empty ($this->password2) ){$error = true; };
     
             if (($this->password1 !== $this->password2)) {$error = true;};
-            if ($error) { header ("location: ../vista/signup.html?error=1"); exit();};
+            if ($error) { header ("location: ../vista/signup.php?error=1"); exit();};
 */
 
             if ($this->emptyInput() == true){
@@ -85,7 +85,17 @@ class usuarioContr extends usuario {
                 header ("location: ../views/signup.php?error=EmptyInput"); 
                 exit();
                 }
-
+            if (!$this->is_valid_email($this->email)){
+                echo " email inválido";
+                header ("location: ../views/signup.php?error=InvalidEmail"); 
+                exit();
+                }
+            
+            if (($this->password1 != $this->password2)) {
+                echo " repita la misma palabra de paso en los dos campos";
+                header ("location: ../views/signup.php?error=differentPass"); 
+                exit();
+                }     
                 
             $result = $this->checkUser($this->username,$this->email); // en usuario.php
             if ($result == 2) {
@@ -228,7 +238,7 @@ class usuarioContr extends usuario {
                 exit();
         } else {
                 echo " actualización realizada con éxito";
-                header ("location: ../views/login.php?error=errorNone");
+                header ("location: ../views/login.php?error=NewPassSaved");
                 exit();
             }
         //setUser to BD
@@ -379,15 +389,15 @@ class usuarioContr extends usuario {
         //Para enviar texto plano     
             
             if ($issue == 'forgotPassword'){
+                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/views/introducirPass.php?token='.$this->token; // aqui hay que enviar el token
                 $mail->Body = "Hola,\n\nPara recuperar tu contraseña, haz click en el enlace siguiente. Si no has solicitado este
                     correo, puedes ignorarlo.\n\nSaludos,\n\nFoap2023-OOP";
-                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/views/introducirPass.php?token='.$this->token; // aqui hay que enviar el token
                 $mail->msgHTML("<a href='".$link."'> Link para crear nueva contraseña</a>"); 
                 };
             if ($issue == 'activacion'){
+                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/includes/activacion_inc.php?token='.$this->token; // aqui hay que enviar el token
                 $mail->Body = "Hola,\n\nPara activar tu cuenta, haz click en el enlace siguiente. Si no has solicitado este
                     correo, puedes ignorarlo.\n\nSaludos,\n\nFoap2023-OOP";
-                $link= 'http://localhost/Foap2023-OOP/RecuperarContrasenya/includes/activacion_inc.php?token='.$this->token; // aqui hay que enviar el token
                 $mail->msgHTML("<a href='".$link."'> Link para activar su cuenta </a>"); 
                 };
 

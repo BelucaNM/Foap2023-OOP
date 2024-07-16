@@ -9,12 +9,12 @@
 </head>
 <body>
     <?php
-        echo "hola";
+    
         $token = "";
         if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['token']) ){// Validaciones
     
             $token = $_GET['token'];
-            print_r($_GET);
+
         };
 
     ?>
@@ -38,7 +38,7 @@
 
         </div> 
         <div class="form-floating mb-1 mt-1">
-            <input type="text" class="form-control" id="token" name="token" value="<?=$token;?>"  readonly  >
+            <input type="text" class="form-control" id="token" name="token" value="<?=$token;?>"  hidden readonly  >
 
         </div> 
         

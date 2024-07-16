@@ -19,8 +19,12 @@
             echo '<div class="alert alert-success" role="alert">Su cuenta ha sido activada.</div>';
             };
         if ( $_GET['error'] == 'emailForgotPassword') {
-            echo '<div class="alert alert-success" role="alert">Por favor, compruebe su email. Recibirá un correo para nuevo password</div>';
+            echo '<div class="alert alert-success" role="alert">Por favor, compruebe su email. Recibirá un correo para nuevo password.</div>';
             };
+        if ( $_GET['error'] == 'NewPassSaved') {
+                echo '<div class="alert alert-success" role="alert">Su password se ha actualizado correctamente.</div>';
+                };
+            
     };
 
     ?>

@@ -1,7 +1,7 @@
 
 <?php
 
-print_r($_POST);
+// print_r($_POST);
 
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Validaciones
     
@@ -11,7 +11,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     $password2 = $_POST["password2"];
     $token=$_POST["token"];
     
-    echo 'Creando instancia de registro <br>';
+//    echo 'Creando instancia de registro <br>';
     require "../model/connection.php";
     require "../model/usuario.php";
     require "../controllers/usuarioContr.php";
