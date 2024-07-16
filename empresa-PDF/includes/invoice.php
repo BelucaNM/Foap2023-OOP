@@ -105,16 +105,21 @@ require "../includes/pedido_inc.php";
 <tbody>
     <?php
 
+    $preu_subtotal = 0;
+
     foreach ($lineas as $key => $linea) {
 //        print_r( $linea);
-        echo "<tr class = 'row'>";
+        $preu_subtotal += $linea['import'];
+
+            echo "<tr class = 'row'>";
+
             echo "<td>$linea[lin_com]</td>";
             echo "<td>$linea[descr]</td>";
             echo "<td>$linea[quant]</td>";
             echo "<td>$linea[preu]</td>";
             echo "<td>$linea[import]</td>";
 
-        echo "</tr>";
+            echo "</tr>";
     };
     ?>
 </tbody>
@@ -124,13 +129,14 @@ require "../includes/pedido_inc.php";
         <td></td>
         <td></td>
         <td>Subtotal$</td>
-        <td text-align="right">1635.00</td>
+        <td text-align="right"><?=$preu_subtotal?></td>
+    </tr>
     <tr class = 'row'>
         <td></td>
         <td></td>
         <td></td>
         <td>Tax $</td>
-        <td text-align="right">294.3</td>
+        <td text-align="right"><?=$pedido[0]['import_total']-$preu_subtotal?></td>
     </tr>
     <tr class = 'row fondoGris'> 
         <td></td>

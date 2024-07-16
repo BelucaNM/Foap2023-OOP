@@ -15,6 +15,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['numcomanda']) ){
     
     $lineas = $passContr->consultaLineas();
     $pedido = $passContr->consultaPedido();
+   
     
     };
 

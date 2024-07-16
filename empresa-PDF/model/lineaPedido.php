@@ -28,7 +28,7 @@ class lineaPedido extends connection {
             
         
         $error=0;
-        $stmt = $this->connect()->prepare("SELECT co.data, co.clie, co.import_total,c.nom FROM comanda as co JOIN clients as c WHERE c.numclie = co.clie and numcomanda = ?");
+        $stmt = $this->connect()->prepare("SELECT co.data, co.clie, co.import_total,c.nom, c.email FROM comanda as co JOIN clients as c WHERE c.numclie = co.clie and numcomanda = ?");
     
         if (!$stmt->execute(array($numcomanda))){
                 $error = 1;
@@ -45,8 +45,22 @@ class lineaPedido extends connection {
         $stmt = null;
         return $array;
         }
+
     
-    
+    public function getTodos() {
+        
+        $error=0;    
+        $result = true;
+        $stmt = $this->connect()->prepare("SELECT numcomanda  from comanda");
+        $result = $stmt->execute();
+        if (!$result){
+                return 1;
+            }else{
+                return $stmt->fetchAll();
+            }
+
+        }  
+              
 
 } 
            

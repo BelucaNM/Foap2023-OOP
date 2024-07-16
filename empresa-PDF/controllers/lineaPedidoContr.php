@@ -9,10 +9,11 @@ class lineaPedidoContr extends lineaPedido {
     private $descr;
     private $numclie;
     private $nom;
+    private $email;
 
     
 
-    public function __construct($numcomanda, $lin_com ='',$codprod='',$quant='',$import='') {
+    public function __construct($numcomanda='', $lin_com ='',$codprod='',$quant='',$import='') {
                 $this->numcomanda = $numcomanda;
                 $this->lin_com = $lin_com;
                 $this->codprod = $codprod;
@@ -61,7 +62,10 @@ class lineaPedidoContr extends lineaPedido {
        }
    public function getNom() {
        return $this->nom;
-       }
+        }
+   public function getEmail() {
+        return $this->email;
+         }
    public function setDescr($descr) {
         $this->descr = $descr;
         }
@@ -71,24 +75,9 @@ class lineaPedidoContr extends lineaPedido {
   public function setNom($nom) {
         $this->nom = $nom;
         }
-
-public function consultaLineasPedido() {
-
-        $result = $this->leerLineas($this->numcomanda);
-
-        if ($result[0] == 1) {
-            echo " Ejecución stmt incorrecta";
-            header ("location: ../views/introducirPedido.html?error=FailedStmt");
-        exit();
+public function setEmail($email) {
+        $this->email = $email;
         }
-        if ($result[0] == 2) { 
-            echo " El pedido no tiene lineas";
-            header ("location: ../views/introducirPedido.html?error=noOrderLines"); 
-            exit();
-        }
-        return $result[1];
-        }
-
 
 public function consultaLineas() {
 
@@ -108,7 +97,9 @@ public function consultaLineas() {
         }
 
 public function consultaPedido() {
+
         $result = $this->leerPedido($this->numcomanda);
+
         if ($result[0] == 1) {
                 echo " Ejecución stmt incorrecta";
                 header ("location: ../views/introducirPedido.html?error=FailedStmt");
@@ -121,10 +112,6 @@ public function consultaPedido() {
                 }
         return $result[1];
 }
-
-
-
-
 
 
 public function validate_input($input)
