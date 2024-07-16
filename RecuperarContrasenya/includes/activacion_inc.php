@@ -4,13 +4,13 @@
 
     //instanciar las classes
     require "../model/connection.php";
-    require "../model/usario.php";
-    require "../controler/emailContr.php";
+    require "../model/usuario.php";
+    require "../controllers/usuarioContr.php";
 
-    $newEmail = new emailContr($token);
+    $newUsuario = new usuarioContr("","","","",$token);
    
     //ejecutar gestor de errores i crear nuevo password
-    $newEmail->activateAccount();
+    $newUsuario->activateAccount();
 
     //rederigir a la pagina de login
     

@@ -43,7 +43,7 @@ class usuario extends connection {
     protected function setUser($username, $password, $email, $token="") {
             
             $result = true;
-            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email, token, deadLine=now()) VALUES (?,?,?,?)");
+            $stmt = $this->connect()->prepare("INSERT INTO usuarios (username, password, email, token) VALUES (?,?,?,?)");
             
             $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
@@ -122,7 +122,7 @@ class usuario extends connection {
         }else{
             if( $stmt->rowCount() >0) {
                 $tiempo = $stmt->fetch();
-                if($tiempo[0]['diff'] > 30){  // diferencia mayor ede 30 minutos que es tiempo de validez del token
+                if($tiempo[0]['diff'] > 30){  // diferencia mayor de 30 minutos que es tiempo de validez del token
                     $error = 3;
                 }
             }else{

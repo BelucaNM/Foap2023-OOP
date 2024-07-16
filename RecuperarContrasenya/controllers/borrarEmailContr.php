@@ -5,8 +5,9 @@ class emailContr extends usuario {
         private $token;
         private $activo;
 
-        public function __construct($email) {
+        public function __construct($email="",$token="") {
                 $this->email = $email;
+                $this->token = $token;
                 } 
         public function __destruct() { 
                     echo "Se ha destruido el registro";
@@ -126,7 +127,9 @@ class emailContr extends usuario {
 
         }
         public function activateAccount(){
+
             $result = $this->checkToken($this->token);
+
             if ($result == 1) {
                 echo " el stmt es incorrecto";
                 header ("location: ../includes/activacion_inc.php?error=FailedStmt");
@@ -147,7 +150,7 @@ class emailContr extends usuario {
                 header("Location: ../includes/activacion_inc.php?error=failedStmt&token=$this->token");
                 exit();
             }
-            header("Location: ../view/login.php?error=none");
+            header("Location: ../views/login.html?error=none");
 
         }   
     }            

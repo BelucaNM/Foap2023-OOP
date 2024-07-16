@@ -17,10 +17,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
 //    require "../controllers/autoload_controlador.php";
     $usuarioContr= new usuarioContr($username, $password1, $password2, $email);
     $usuarioContr->signupUser();
-
-
-//    header("Location: ../views/listaUsuarios.php");
-               
+              
     
 };
     

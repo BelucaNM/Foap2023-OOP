@@ -11,11 +11,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     require "../model/connection.php";
     require "../model/usuario.php";
     print_r($_POST);
-    require "../controllers/emailContr.php";
+    require "../controllers/usuarioContr.php";
     
-    $emailContr= new emailContr($email);
+    $emailContr= new usuarioContr("","","",$email);
     $emailContr->forgotPassword();
-
     
 };
     
