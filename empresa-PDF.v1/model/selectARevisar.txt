@@ -1,0 +1,7 @@
+select p.descr, p.preu, l.quant, l.quant*p.preu as preu_total, l.lin_com
+from comanda as c
+join linia_comanda as l
+on c.numcomanda = l.numcomanda
+join productes as p on o.codprod=l.codprod and p.codfab= l.codfab
+join clients as cl on c.clie = cl.numclie
+join empleats as e on c.rep_ven = e.numemp;
