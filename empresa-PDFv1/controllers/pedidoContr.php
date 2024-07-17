@@ -1,66 +1,7 @@
 
 <?php
 class pedidoContr extends pedido {
-    private $numcomanda;
-    private $numclie;
-    private $nomclie;
-    private $emailclie;
-    private $numemp;
-    private $nomemp;
-    private $dataComanda;
-    private $formatoInvoice_php;
-
     
-
-    public function __construct($numcomanda, $formatoInvoice){
-                $this->numcomanda = $numcomanda;
-                $this->formatoInvoice = $formatoInvoice;
-                } 
-    public function __destruct() { 
-//            echo "Se ha destruido el registro";
-            }
-    public function getnumcomanda() {
-            return $this->numcomanda;
-            }
-    public function setnumcomanda($numcomanda) {
-            $this->numcomanda = $numcomanda;
-            }
-   public function getnumclie() {
-       return $this->numclie;
-       }
-    public function setnumClie($numclie) {
-        $this->numclie = $numclie;
-        }
-   public function getnomclie() {
-       return $this->nomclie;
-        }
-   public function setnomclie($nomclie) {
-        $this->nomclie = $nomclie;
-        }
-   public function getemailClie() {
-        return $this->emailclie;
-         }
-   public function setemailClie($emailclie) {
-        $this->emailclie = $emailclie;
-        }
-public function getnumemp() {
-        return $this->numemp;
-        }
-public function setnumemp($numemp) {
-        $this->numemp = $numemp;
-        }
-public function getdataComanda() {
-        return $this->dataComanda;
-        }
-public function setdataComanda($dataComanda) {
-        $this->dataComanda = $dataComanda;
-        }
-public function getformatoInvoice_php() {
-        return $this->formatoInvoice_php;
-        }
-public function setformatoInvoice_php($formatoInvoice_php) {
-        $this->formatoInvoice_php = $formatoInvoice_php;
-        }
 public function consultaLineas() {
 
         $result = $this->leerLineas();
@@ -98,7 +39,7 @@ public function consultaPedido() {
 
 
 
-private function enviaEmail(){
+public function enviaEmail(){
                 /*use PHPMailer\PHPMailer\PHPMailer;
                   use PHPMailer\PHPMailer\Exception;
                   use PHPMailer\PHPMailer\SMTP;*/
@@ -117,15 +58,15 @@ private function enviaEmail(){
                 $mail->Username = 'foap408@gmail.com';
                 $mail->Password = 'dyrv alyq ojiq acyd';
                 
-                $mail->addAddress($this->$email,$this->$nomclie);
+                $mail->addAddress($this->getemailClie(),$this->getnomclie());
         //      $mail->addAddress('beluca.navarrina@gmail.com', 'Beluca');
                 $mail->Subject = "Su factura Foap2023-OOP";
     
             //Replace the plain text body with one created manually
             //Para enviar texto plano     
                 
-                $mail->Body = "Hola $this->nomclie, Adjunto su factura correspondienta a su pedido $this->numcomanda.\n\Atentamente,\n\nFoap2023-OOP";
-                $mail->addAttachment('../invoicesPDF/'.$numcomanda.'.pdf');
+                $mail->Body = "Hola ".$this->getnomclie().", Adjunto su factura correspondienta a su pedido ". $this->getnumcomanda().".\n\Atentamente,\n\nFoap2023-OOP";
+                $mail->addAttachment('../invoicesPDF/'.$this->getnumcomanda().'.pdf');
     
                 $err = 0;
                 if (!$mail->send()) {
@@ -138,7 +79,7 @@ private function enviaEmail(){
                 }
                 
             }  
-public function createInvoice(){
+public function crearInvoice(){
                 // The Composer autoloader
                 
                 require_once '../../dompdf/vendor/autoload.php';
@@ -168,7 +109,7 @@ public function createInvoice(){
                 // Devuelve el archivo PDF en forma de cadena.
                 $pdf_string = $dompdf->output(); 
                 // Nombre y ubicación del archivo PDF
-                $pdf_file_loc = '../invoicesPDF/'.$numcomanda.'.pdf';
+                $pdf_file_loc = '../invoicesPDF/'.$this->getnumcomanda().'.pdf';
                 // Guardar el PDF generado en la ubicación deseada con un nombre personalizado
                 file_put_contents($pdf_file_loc, $pdf_string);
                 //echo ' despues de "contents"';
