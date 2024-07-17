@@ -11,10 +11,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['numcomanda']) ){
 //    require "../controllers/lineaPedidoContr.php";
 
     
-    $nuevoContr= new lineaPedidoContr($numcomanda);
+    $passContr= new lineaPedidoContr($numcomanda);
     
-    $lineas = $nuevoContr->consultaLineas();
-    $pedido = $nuevoContr->consultaPedido();
+    $lineas = $passContr->consultaLineas();
+    $pedido = $passContr->consultaPedido();
    
     
     };
