@@ -7,10 +7,11 @@ require "../model/connection.php";
 require "../model/pedido.php";
 require "../controllers/pedidoContr.php";
 
-$formatoInvoice ="invoice.php";
-$pedidoContr= new pedidoContr($numcomanda,$formatoInvoice);
-$pedidoContr->leerPedido();
-$pedidoContr->leerLineas();
-$pedidoContr->crearInvoice();
+$formatoInvoice_php ="invoice.php";
+$pedidoContr= new pedidoContr($numcomanda);
+$pedidoContr->setformatoInvoice_php($formatoInvoice_php);
+$pedidoContr->creaInvoice();
+
+
 }
 ?>

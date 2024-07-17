@@ -2,78 +2,23 @@
 <?php
 class pedido extends connection {
     private $numcomanda;
-    private $numclie;
-    private $nomclie;
-    private $emailclie;
-    private $numemp;
-    private $nomemp;
-    private $dataComanda;
-    private $importTotal;
-    private $formatoInvoice_php;
-
+    
+    
+    public function getnumcomanda() {
+        return $this->numcomanda;
+        }
+    public function setnumcomanda($numcomanda) {
+        $this->numcomanda = $numcomanda;
+        }
     
 
-    public function __construct($numcomanda, $formatoInvoice){
+    public function __construct($numcomanda=""){
                 $this->numcomanda = $numcomanda;
-                $this->formatoInvoice = $formatoInvoice;
                 } 
     public function __destruct() { 
 //            echo "Se ha destruido el registro";
             }
-    public function getnumcomanda() {
-            return $this->numcomanda;
-            }
-    public function setnumcomanda($numcomanda) {
-            $this->numcomanda = $numcomanda;
-            }
-   public function getnumclie() {
-       return $this->numclie;
-       }
-    public function setnumClie($numclie) {
-        $this->numclie = $numclie;
-        }
-   public function getnomclie() {
-       return $this->nomclie;
-        }
-   public function setnomclie($nomclie) {
-        $this->nomclie = $nomclie;
-        }
-   public function getemailClie() {
-        return $this->emailclie;
-         }
-   public function setemailClie($emailclie) {
-        $this->emailclie = $emailclie;
-        }
-    public function getnumemp() {
-        return $this->numemp;
-        }
-    public function setnumemp($numemp) {
-        $this->numemp = $numemp;
-        }
-    public function getnomemp() {
-            return $this->nomemp;
-            }
-    public function setnomemp($nomemp) {
-            $this->nomemp = $nomemp;
-            }
-    public function getdataComanda() {
-        return $this->dataComanda;
-        }
-    public function setdataComanda($dataComanda) {
-        $this->dataComanda = $dataComanda;
-        }
-    public function getimportTotal() {
-            return $this->importTotal;
-            }
-    public function setimportTotal($importTotal) {
-            $this->importTotal = $importTotal;
-            }
-    public function getformatoInvoice_php() {
-        return $this->formatoInvoice_php;
-        }
-    public function setformatoInvoice_php($formatoInvoice_php) {
-        $this->formatoInvoice_php = $formatoInvoice_php;
-        }
+    
 
     public function leerLineas() {
             
@@ -104,9 +49,9 @@ class pedido extends connection {
             
         $error=0;
         $stmt = $this->connect()->prepare("SELECT 
-                                            co.data as dataComanda, 
-                                            co.clie as numClie, 
-                                            co.import_total as import_total,
+                                            co.data as datacomanda, 
+                                            co.clie as numclie, 
+                                            co.import_total as importtotal,
                                             co.rep_ven as numemp,
                                             c.nom  as nomclie, 
                                             c.email as emailclie, 
@@ -121,16 +66,9 @@ class pedido extends connection {
         }else{
                 if( $stmt->rowCount() >0) {
                     $result = $stmt->fetchAll();
-//                    print_r($result);
-                    $array[1] =$result;
-
-                    $this->setnumcomanda=$array[1]['dataComanda'];
-                    $this->setnumClie=$array[1]['numClie']; 
-                    $this->setnomclie=$array[1]['nomclie'];
-                    $this->setemailClie=$array[1]['emailclie'];
-                    $this->setnumemp=$array[1]['numemp'];
-                    $this->setnomemp=$array[1]['nomven'];
-                    $this->setimportTotal=$array[1]['import_total'];
+                    print_r($result);
+                    
+                    $array[1] =$result[0];
 
                 }else{
                     $error = 2;

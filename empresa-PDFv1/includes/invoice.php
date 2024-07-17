@@ -76,11 +76,11 @@
 <div id = "FromTo">
     <div>
         <p><strong>From:</strong></p>
-        <p><?=$pedido[0]['nomven']?></p>
+        <p><?=$pedido['nomven']?></p>
     </div>
     <div>
         <p><strong>To:</strong></p>
-        <p><?=$pedido[0]['nomclie']?></p>
+        <p><?=$pedido['nomclie']?></p>
     </div>
    
 </div>
@@ -100,8 +100,8 @@
 
     $preu_subtotal = 0;
 
-    foreach ($lineas as $key => $linea) {
-//        print_r( $linea);
+    foreach ($lineas as $linea) {
+        print_r( $linea);
         $preu_subtotal += $linea['import'];
 
             echo "<tr class = 'row'>";
@@ -129,14 +129,14 @@
         <td></td>
         <td></td>
         <td>Tax $</td>
-        <td text-align="right"><?=$pedido[0]['import_total']-$preu_subtotal?></td>
+        <td text-align="right"><?=$pedido['importtotal']-$preu_subtotal?></td>
     </tr>
     <tr class = 'row fondoGris'> 
         <td></td>
         <td></td>
         <td></td>
         <td>Total $</td>
-        <td text-align="right"><?=$pedido[0]['import_total']?></td>
+        <td text-align="right"><?=$pedido['importtotal']?></td>
     </tr>
   </tfoot>
 </table>
