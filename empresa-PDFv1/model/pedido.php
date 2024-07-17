@@ -1,8 +1,8 @@
 
 <?php
-class lineaPedido extends connection {
+class pedido extends connection {
 
-    protected function leerLineas($numcomanda) {
+    protected function leerLineas() {
             
             $error=0;
             $array = array();
@@ -12,7 +12,7 @@ class lineaPedido extends connection {
             FROM linia_comanda as l 
             JOIN productes as p WHERE l.codprod= p.codprod and l.numcomanda = ?");
 
-            if (!$stmt->execute(array($numcomanda))){
+            if (!$stmt->execute(array($this->numcomanda))){
                 $error = 1;
             }else{
                 if( $stmt->rowCount() >0) {
@@ -27,7 +27,7 @@ class lineaPedido extends connection {
             $stmt = null;
             return $array;
         }
-    protected function leerPedido($numcomanda) {
+    protected function leerPedido() {
             
         $error=0;
         $stmt = $this->connect()->prepare("SELECT co.data, co.clie, co.import_total, c.nom  as nomclie, c.email as emailclie, e.nom as nomven FROM comanda as co 
@@ -35,7 +35,7 @@ class lineaPedido extends connection {
                                             JOIN empleats as e on co.rep_ven = e.numemp 
                                             WHERE numcomanda = ?");
                                         
-        if (!$stmt->execute(array($numcomanda))){
+        if (!$stmt->execute(array($this->numcomanda))){
                 $error = 1;
         }else{
                 if( $stmt->rowCount() >0) {

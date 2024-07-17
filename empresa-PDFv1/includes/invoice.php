@@ -50,9 +50,6 @@
     </style>
 </head>
 <body>
-<?php
-require "../includes/pedido_inc.php";
-?>
 <div id = "cabecera">
 <table id="pedidoLineas">
 <tr>

@@ -1,90 +1,69 @@
 
 <?php
-class lineaPedidoContr extends lineaPedido {
+class pedidoContr extends pedido {
     private $numcomanda;
-    private $lin_com;
-    private $codprod;
-    private $quant;
-    private $import;
-    private $descr;
     private $numclie;
-    private $nom;
-    private $email;
+    private $nomclie;
+    private $emailclie;
     private $numemp;
     private $nomemp;
+    private $dataComanda;
+    private $formatoInvoice_php;
 
     
 
-    public function __construct($numcomanda='', $lin_com ='',$codprod='',$quant='',$import='',$email='') {
+    public function __construct($numcomanda, $formatoInvoice){
                 $this->numcomanda = $numcomanda;
-                $this->lin_com = $lin_com;
-                $this->codprod = $codprod;
-                $this->quant = $quant;
-                $this->import = $import;
-                $this->email = $email;
+                $this->formatoInvoice = $formatoInvoice;
                 } 
     public function __destruct() { 
 //            echo "Se ha destruido el registro";
             }
-    public function getNumComanda() {
+    public function getnumcomanda() {
             return $this->numcomanda;
             }
-    public function getLin_com() {
-            return $this->lin_com;
-            }
-    public function getCodProd() {
-             return $this->codprod;
-            }
-    public function getQuant() {
-            return $this->quant;
-            }
-    public function getImport() {
-            return $this->import;
-            }
-    public function setNumComanda($numcomanda) {
+    public function setnumcomanda($numcomanda) {
             $this->numcomanda = $numcomanda;
             }
-    public function setLin_com($lin_com) {
-            $this->lin_com = $lin_com;
-            }
-   public function setCodProd($codProd) {
-            $this->codProd = $codProd;
-            }
-   public function setQuant($quant) {
-            $this->quant = $quant;
-            }
-   public function setImport($import) {
-         $this->import = $import;
-                }
-//
-   public function getDescr() {
-        return $this->descr;
-       }
-   public function getNumclie() {
+   public function getnumclie() {
        return $this->numclie;
        }
-   public function getNom() {
-       return $this->nom;
-        }
-   public function getEmail() {
-        return $this->email;
-         }
-   public function setDescr($descr) {
-        $this->descr = $descr;
-        }
-  public function setNumClie($numclie) {
+    public function setnumClie($numclie) {
         $this->numclie = $numclie;
         }
-  public function setNom($nom) {
-        $this->nom = $nom;
+   public function getnomclie() {
+       return $this->nomclie;
         }
-public function setEmail($email) {
-        $this->email = $email;
+   public function setnomclie($nomclie) {
+        $this->nomclie = $nomclie;
         }
-
+   public function getemailClie() {
+        return $this->emailclie;
+         }
+   public function setemailClie($emailclie) {
+        $this->emailclie = $emailclie;
+        }
+public function getnumemp() {
+        return $this->numemp;
+        }
+public function setnumemp($numemp) {
+        $this->numemp = $numemp;
+        }
+public function getdataComanda() {
+        return $this->dataComanda;
+        }
+public function setdataComanda($dataComanda) {
+        $this->dataComanda = $dataComanda;
+        }
+public function getformatoInvoice_php() {
+        return $this->formatoInvoice_php;
+        }
+public function setformatoInvoice_php($formatoInvoice_php) {
+        $this->formatoInvoice_php = $formatoInvoice_php;
+        }
 public function consultaLineas() {
 
-        $result = $this->leerLineas($this->numcomanda);
+        $result = $this->leerLineas();
         
         if ($result[0] == 1) {
                 echo " Ejecución stmt incorrecta";
@@ -101,7 +80,7 @@ public function consultaLineas() {
 
 public function consultaPedido() {
 
-        $result = $this->leerPedido($this->numcomanda);
+        $result = $this->leerPedido();
 
         if ($result[0] == 1) {
                 echo " Ejecución stmt incorrecta";
@@ -117,16 +96,9 @@ public function consultaPedido() {
 }
 
 
-public function validate_input($input)
-            { // sanear datos
-                $input = trim($input);
-                $input = htmlspecialchars($input);
-                $input = stripslashes($input);
-                return $input;
 
-            }
 
-private function enviaEmail($email){
+private function enviaEmail(){
                 /*use PHPMailer\PHPMailer\PHPMailer;
                   use PHPMailer\PHPMailer\Exception;
                   use PHPMailer\PHPMailer\SMTP;*/
@@ -145,14 +117,14 @@ private function enviaEmail($email){
                 $mail->Username = 'foap408@gmail.com';
                 $mail->Password = 'dyrv alyq ojiq acyd';
                 
-                $mail->addAddress($email,"");
+                $mail->addAddress($this->$email,$this->$nomclie);
         //      $mail->addAddress('beluca.navarrina@gmail.com', 'Beluca');
                 $mail->Subject = "Su factura Foap2023-OOP";
     
             //Replace the plain text body with one created manually
             //Para enviar texto plano     
                 
-                $mail->Body = "Hola $this->nom, Adjunto su factura correspondienta a su pedido $this->numcomanda.\n\Atentamente,\n\nFoap2023-OOP";
+                $mail->Body = "Hola $this->nomclie, Adjunto su factura correspondienta a su pedido $this->numcomanda.\n\Atentamente,\n\nFoap2023-OOP";
                 $mail->addAttachment('../invoicesPDF/'.$numcomanda.'.pdf');
     
                 $err = 0;
@@ -177,7 +149,7 @@ public function createInvoice(){
 
                 ob_start();
                 
-                include "invoice.php"; // si es dinámica , para que el PHP sea interpretado
+                include '$this->formatoInvoice_php'; // si es dinámica , para que el PHP sea interpretado
                 echo" despues de los requires";
                 $html_file = ob_get_contents();
                 ob_end_clean();
