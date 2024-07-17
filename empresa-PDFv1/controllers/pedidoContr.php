@@ -167,7 +167,8 @@ public function enviaEmail(){
                         
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         $mail->isSMTP();
-        $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+//        $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+        $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_OFF;
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = 465;
         $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
@@ -187,15 +188,13 @@ public function enviaEmail(){
             
         $err = $mail->send();
         if (!$err) {
-                echo 'Mailing Error: ' . $mail->ErrorInfo;
+                // echo 'Mailing Error: ' . $mail->ErrorInfo;
                 header("Location: ../views/listaPedidos.php?error=MailError");
                 exit();
         }else{
                 header("Location: ../views/listaPedidos.php?error=MailSent");
-                exit();        
-        }
-         
-
-}           
-        
+                exit();       
+        };
+} 
+}          
 ?>    
