@@ -13,7 +13,7 @@
 require "../includes/lista_inc.php";
 ?>
 <div  id="pedidosDesplegable" class ="container">
-<form  method="get" action = "../includes/test_inc.php">
+<form  method="get" action = "../includes/generaPDF_inc.php">
 
 
     <div> 

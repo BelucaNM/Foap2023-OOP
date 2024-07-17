@@ -126,7 +126,7 @@ public function validate_input($input)
 
             }
 
-public function enviaEmail(){
+private function enviaEmail($email){
                 /*use PHPMailer\PHPMailer\PHPMailer;
                   use PHPMailer\PHPMailer\Exception;
                   use PHPMailer\PHPMailer\SMTP;*/
@@ -144,7 +144,8 @@ public function enviaEmail(){
                 $mail->SMTPAuth = true;
                 $mail->Username = 'foap408@gmail.com';
                 $mail->Password = 'dyrv alyq ojiq acyd';
-                $mail->addAddress($this->email, $this->nom);
+                
+                $mail->addAddress($email,"");
         //      $mail->addAddress('beluca.navarrina@gmail.com', 'Beluca');
                 $mail->Subject = "Su factura Foap2023-OOP";
     
@@ -156,13 +157,59 @@ public function enviaEmail(){
     
                 $err = 0;
                 if (!$mail->send()) {
-                    echo 'Mailing Error: ' . $mail->ErrorInfo;
-                    $err = 1;
+                    //echo 'Mailing Error: ' . $mail->ErrorInfo;
+                    header("Location: ../views/listaPedidos.php?error=MailError");
+                    exit();
                 } else {
-                    echo 'Message sent!';
+                    header("Location: ../views/listaPedidos.php?error=MailSent");
+                    exit();
                 }
-                return $err;
-            }    
+                
+            }  
+public function createInvoice(){
+                // The Composer autoloader
+                
+                require_once '../../dompdf/vendor/autoload.php';
+                // Reference the Dompdf namespace
+                //use Dompdf\Dompdf; 
+                // Instantiate and use the dompdf class
+                $dompdf = new Dompdf\Dompdf();
+
+                ob_start();
+                
+                include "invoice.php"; // si es dinámica , para que el PHP sea interpretado
+                echo" despues de los requires";
+                $html_file = ob_get_contents();
+                ob_end_clean();
+
+                // Load HTML content to generate a PDF
+
+                //$dompdf->loadHtml('<h1 style="color:blue;">AllPHPTricks.com3</h1>');
+                // $html_file = file_get_contents("factura.html"); // para contenido estatico
+                $dompdf->loadHtml($html_file);
+
+                // (Optional) Setup the paper size and orientation
+                $dompdf->setPaper('A4', 'portrait');
+                // Render the HTML as PDF
+                $dompdf->render();
+
+                // Devuelve el archivo PDF en forma de cadena.
+                $pdf_string = $dompdf->output(); 
+                // Nombre y ubicación del archivo PDF
+                $pdf_file_loc = '../invoicesPDF/'.$numcomanda.'.pdf';
+                // Guardar el PDF generado en la ubicación deseada con un nombre personalizado
+                file_put_contents($pdf_file_loc, $pdf_string);
+                //echo ' despues de "contents"';
+
+                // Download the generated PDF
+                // $dompdf->stream()
+                // $dompdf->stream("test", array("Attachment" => 1, "compress" => 0));
+                //echo ' despues de "stream"';
+                       
+                //enviar el pdf por email
+                $this->enviaEmail();
+
+                }
 
     }            
         
