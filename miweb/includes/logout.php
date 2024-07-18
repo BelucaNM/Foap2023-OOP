@@ -1,5 +1,5 @@
 <?php
-<?php
+
 
 session_start();
 
@@ -45,5 +45,5 @@ if (isset($_SESSION["user"])) { // Identificación Correcta
 
     } else {  echo "La sesión no estaba abierta "  ;};
 
-header("Location: ../views/index.php.php")
-?>           
+header("Location: ../index.php")
+?> 

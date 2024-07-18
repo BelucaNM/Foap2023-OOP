@@ -7,17 +7,17 @@ class Piso extends Connection {
     public function getTodos() {
             
         $result = true;
-        $stmt = $this->connect()->prepare("Select idPis, uidpis, tipus, numHabitacions, numLavabos from ". $this->tablaNombre);
+        $stmt = $this->connect()->prepare("Select idPis, uidpis, tipus, numHabitacions, numLavabos, users_uid from ". $this->tablaNombre);
         $result = $stmt->execute();
         $this->tablaNumReg = $stmt->rowCount();
         return $stmt->fetchAll();
         } 
         
-  protected function setPiso($uidpis, $tipus, $numHabitacions, $numLavabos,  $users_users_id){
+  protected function setPiso($uidpis, $tipus, $numHabitacions, $numLavabos,  $users_uid){
         $error = 0;
-        $stmt = $this->connect()->prepare("INSERT INTO pisos (uidpis, tipus, numHabitacions, numLavabos, users_users_id) VALUES (?,?,?,?,?)");
+        $stmt = $this->connect()->prepare("INSERT INTO pisos (uidpis, tipus, numHabitacions, numLavabos, users_uid) VALUES (?,?,?,?,?)");
    
-        if(!$stmt->execute(array($uidpis, $tipus, $numHabitacions, $numLavabos, $users_users_id))){
+        if(!$stmt->execute(array($uidpis, $tipus, $numHabitacions, $numLavabos, $users_uid))){
               $error = 1;
         }
         $stmt = null;
@@ -35,8 +35,18 @@ protected function checkPiso($uidpis){
                 }
       $stmt = null;
       return $error;
-        }
- 
+      }
+
+protected function deletePiso($uidpis){
+            $error = 0;
+            $stmt = $this->connect()->prepare("DELETE FROM pisos WHERE uidpis = ? ");
+            if(!$stmt->execute(array($uidpis))){
+                  $error = 1;
+                  }
+            
+            $stmt = null;
+            return $error;
+      }
 
 }
 ?>

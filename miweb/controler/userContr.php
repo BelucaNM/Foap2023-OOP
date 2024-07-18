@@ -7,7 +7,7 @@ class UserContr extends User{
     private $email;
     private $token;
 
-    public function __construct($username, $password, $repeatPwd=null, $email=null, $token=null){
+    public function __construct($username='', $password='', $repeatPwd='', $email='', $token=''){
         $this->username = $username;
         $this->password = $password;
         $this->repeatPwd = $repeatPwd;
@@ -176,15 +176,15 @@ class UserContr extends User{
 
 
         $result = $this->updatePassword($this->token,$this->password); // en usuario.php
-        echo $this->token;
-        echo $this->password;
+//        echo $this->token;
+//        echo $this->password;
         if (!$result) {
                 echo " no se ha podido hacer la actualización";
-                header ("location: ../view/index.php?error=FailedStmt");
+                header ("location: ../index.php?error=FailedStmt");
                 exit();
         } else {
                 echo " actualización realizada con éxito";
-                header ("location: ../view/index.php?error=NewPassSaved");
+                header ("location: ../index.php?error=NewPassSaved");
                 exit();
             }
         //setUser to BD
@@ -192,9 +192,16 @@ class UserContr extends User{
     }
     private function emptyInputTres(){
         $result = false;
-        if ( empty($this->password) || empty($this->passwordRep) || empty($this->token)){
+/*        echo $this->password;
+        echo $this->repeatPwd;
+        echo $this->token;
+*/
+
+
+        if (empty($this->password) || empty($this->repeatPwd) || empty($this->token)){
             $result = true;
         }
+        
         return $result;
 
     
@@ -217,7 +224,7 @@ Public function forgotPassword(){
                 // validaciones
         
     if (!$this->is_valid_email($this->email)){
-                header ("location: ../view/forgotpassword.html?error=InvalidEmail"); 
+                header ("location: ../view/forgotpassword.php?error=InvalidEmail"); 
                 exit();}
         
     //chequea email existe en BD
@@ -225,9 +232,9 @@ Public function forgotPassword(){
         
     $result = $this->checkUserByEmail($this->email);
         print_r($result);
-        if ($result[0] == 1) { header("Location: ../view/forgotpassword.html?error=FailedStmt");
+        if ($result[0] == 1) { header("Location: ../view/forgotpassword.php?error=FailedStmt");
                                     exit();}
-        if ($result[0] == 2) { header("Location: ../view/forgotpassword.html?error=EmailDoesNotExist");
+        if ($result[0] == 2) { header("Location: ../view/forgotpassword.php?error=EmailDoesNotExist");
                                     exit();}
                     
         // $result[1]  es el username           
@@ -237,7 +244,7 @@ Public function forgotPassword(){
                    
                 //actualiza registro to DB
                 if (!$this->updateConToken($this->email,$this->token)) {
-                        header("Location: ../view/forgotpassword.html?error=FailedUpdateToken");     
+                        header("Location: ../view/forgotpassword.php?error=FailedUpdateToken");     
                         exit();} 
                         
                     // si todo esta bien, envia email
@@ -271,7 +278,8 @@ Private function enviaEmail($issue){
             
             $mail = new PHPMailer\PHPMailer\PHPMailer(true);
             $mail->isSMTP();
-            $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+            $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_OFF;
+//            $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
             $mail->Host = 'smtp.gmail.com';
             $mail->Port = 465;
             $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;

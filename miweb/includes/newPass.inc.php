@@ -14,7 +14,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
 //    echo 'Creando instancia de registro <br>';
     require "../model/Connection.php";
     require "../model/User.php";
-    require "../controllers/userContr.php";
+    require "../controler/userContr.php";
 
     
     $passContr= new UserContr("", $password1,$password2,"",$token);

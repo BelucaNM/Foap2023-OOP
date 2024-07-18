@@ -7,14 +7,14 @@ class PisoContr extends Piso{
     private $tipus;
     private $numHabitacions;
     private $numLavabos;
-    private $users_users_id;
+    private $users_uid;
 
-    public function __construct($uidpis ="" ,$tipus="", $numHabitacions="", $numLavabos="", $users_users_id=""){
+public function __construct($uidpis ="" ,$tipus="", $numHabitacions="", $numLavabos="", $users_uid=""){
         $this->uidpis = $uidpis;
         $this->tipus = $tipus;
         $this->numHabitacions = $numHabitacions;
         $this->numLavabos = $numLavabos;
-        $this->users_users_id = $users_users_id;
+        $this->users_uid = $users_uid;
 
     }
 
@@ -30,7 +30,6 @@ class PisoContr extends Piso{
     
 Public function altaPiso(){
         
-
         if ($this->emptyInput() == true){
             echo " la entrada es vacia";
             header ("location: ../view/noupis.php?error=EmptyInput"); 
@@ -48,9 +47,10 @@ Public function altaPiso(){
                     exit();
                 }
         //setPiso to BD
-
-        if (!$this->setPiso($this->uidpis, $this->tipus, $this->numHabitacions, $this->numLavabos, $this->users_users_id)) { // en usuario.php
-            echo " el stmt es incorrecto";
+        
+        $result =$this->setPiso($this->uidpis, $this->tipus, $this->numHabitacions, $this->numLavabos, $this->users_uid);
+        echo $result;
+        if ($result == 1) { // en usuario.php
             header ("location: ../view/noupis.php?error=FailedStmt");
             exit();
         }
@@ -61,17 +61,30 @@ Public function altaPiso(){
 
 private function emptyInput(){
         $result = false;
-        if (empty($this->uidpis) || empty($this->tipus) || empty($this->numHabitacions) || empty($this->numLavabos)){
+        if (empty($this->uidpis) || empty($this->tipus) || empty($this->numHabitacions) || empty($this->numLavabos)
+        || empty($this->users_uid)){
 /*          echo $this->uidpis;
             echo $this->tipus;
             echo $this->numHabitacions;
             echo $this->numLavabos;
-            $result = true; 
 */
+            $result = true; 
+
         }
         return $result;
-    }    
-
-
-
+    }  
+    
+Public function borraPiso(){
+       
+        $result =$this->deletePiso($this->uidpis);
+        echo $result;
+        if ($result == 1) { // en usuario.php
+            header ("location: ../view/pisos.php?error=FailedStmt");
+            exit();
+        }
+        //Volver a la pagina inicial--- 
+        header("Location: ../view/pisos.php?error=none");
+    }
 }
+
+?>

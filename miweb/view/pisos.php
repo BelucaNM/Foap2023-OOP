@@ -98,6 +98,8 @@ require "../includes/pisosLista-inc.php";
            <th>Tipus</th>
            <th>Num. habitacions</th>
            <th>Num. Lavabos</th>
+           <th>Usuario</th>
+           <th>Accion</th>
        </tr>
        </thead>
        <tbody>
@@ -109,6 +111,8 @@ require "../includes/pisosLista-inc.php";
                 echo "<td>$piso[tipus]</td>";
                 echo "<td>$piso[numHabitacions]</td>";
                 echo "<td>$piso[numLavabos]</td>";
+                echo "<td>$piso[users_uid]</td>";
+                echo "<td><a href='../includes/borraPiso.php?uidpis=$piso[uidpis]'>Borrar</a></td>";
                 echo "</tr>";
             };
     ?>

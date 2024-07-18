@@ -9,7 +9,25 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+<?php
+    if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['error'])) { // Validaciones
 
+        if ( $_GET['error'] == 'RegisterDone') {
+            echo '<div class="alert alert-success" role="alert">Por favor, compruebe su email. Recibirá un correo de activación.</div>';
+            };
+        if ( $_GET['error'] == 'activAccount') {
+            echo '<div class="alert alert-success" role="alert">Su cuenta ha sido activada.</div>';
+            };
+        if ( $_GET['error'] == 'emailForgotPassword') {
+            echo '<div class="alert alert-success" role="alert">Por favor, compruebe su email. Recibirá un correo para nuevo password.</div>';
+            };
+        if ( $_GET['error'] == 'NewPassSaved') {
+                echo '<div class="alert alert-success" role="alert">Su password se ha actualizado correctamente.</div>';
+                };
+            
+    };
+
+    ?>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
 

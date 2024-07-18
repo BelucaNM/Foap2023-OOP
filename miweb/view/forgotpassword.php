@@ -51,7 +51,7 @@
             <label for="email">Email:</label>
             <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 </body>

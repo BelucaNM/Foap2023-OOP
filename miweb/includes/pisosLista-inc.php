@@ -8,7 +8,7 @@ $pisoContr = new pisoContr();
 $todos= $pisoContr->getTodos();
 
 if ($todos == 1 ) { // error STMT
-        echo "Error al obtener todos los usuarios <br>";
+        echo "Error al obtener todos los pisos <br>";
         $num=0;
 } else {
 //        print_r($todos);

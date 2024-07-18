@@ -55,7 +55,7 @@
     ?>
 <div class="container mt-3">
     <h2>New Password</h2>
-    <form action="..includes/newPass.inc.php" method="post">
+    <form action="../includes/newPass.inc.php" method="post">
         <div class="mb-3">
             <label for="pwd">Password:</label>
             <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
