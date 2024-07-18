@@ -11,10 +11,12 @@
 </head>
 <body>
 <?php
+
 session_start();
 if(!isset($_SESSION['user'])){
     echo " la session no ha sido iniciada";
     header("Location: ../index.php");
+    exit();
 }
 
 ?>
@@ -54,7 +56,7 @@ if(!isset($_SESSION['user'])){
 </nav>
 <div class="container mt-3">
     <h2>Alta Pis</h2>
-    <form action="" method="post">
+    <form action="../includes/noupis-inc.php" method="post">
         <div class="mb-3">
             <label for="uidpis">Identificado Pis:</label>
             <input type="text" class="form-control" id="uidpis"  name="uidpis">
@@ -74,7 +76,7 @@ if(!isset($_SESSION['user'])){
             <label for="numLavabos">Num. Lavabos:</label>
             <input type="numLavabos" class="form-control" id="numLavabos" name="numLavabos">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 </body>

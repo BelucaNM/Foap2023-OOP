@@ -1,64 +1,47 @@
 <?php
-echo 'Creando instancia de tabla de pisos <br>';
-require "../model/connection.php";
-require "../model/piso.php";
-require "../model/pisoContr.php";
 
-$PisoContr = new PisoContr();
-echo "PisoContr <br>";
+    // The Composer autoloader
+    
+    require_once '../../dompdf/vendor/autoload.php';
+    // Reference the Dompdf namespace
+    //use Dompdf\Dompdf; 
+    // Instantiate and use the dompdf class
+    $dompdf = new Dompdf\Dompdf();
 
-$todos= $PisoContr->getTodos();
-echo "<br> todos <br>";
+    ob_start();
 
-if ($todos == 1 ) { // error STMT
-        echo "Error al obtener todos los usuarios <br>";
-        $num=0;
-    } else {
-        print_r($todos);
-        $num = $repUsuarios->tablaNumReg;
-        echo " Hay ".$num." registros.<br>";
-    }
-    ?>
-<html>
+    include '../view/pisos.php'; // si es dinámica , para que el PHP sea interpretado                
+//                include '$this->formatoinvoice_php'; // si es dinámica , para que el PHP sea interpretado
 
-<head>
-    <title> Lista Pisos </title>
-    <meta charset="utf-8" >
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
-</head>
 
-<body>
-<h1> Ejercicio ListaUsuarios OOP</h1>
-<div  id="tablaUsuarios" class = "container"></div>
-<table border='1'>
-    <thead>
-        <tr>
-            <th>Piso</th>
-            <th>TipoPiso</th>
-            <th>Habitaciones</th>
-            <th>Lavabos</th>
-        </tr>
-    </thead>
-    <tbody>
-<?php
-        if($num = 0) {
-            echo "No se encontraron pisos.";
-        }else{      
-        foreach ($todos as $key => $piso) {
-                echo "<tr>";
-                echo "<td>$piso[uidpis]</td>";
-                echo "<td>$piso[tipus]</td>";
-                echo "<td>$piso[numHabitacions]</td>";
-                echo "<td>$piso[numLavabos]</td>";
-                echo "</tr>";
-            };
-    echo "</tbody>";
-echo "</table>";
-    }
-?>
- </div>
+    $html_file = ob_get_contents();
+    ob_end_clean();
+
+    // Load HTML content to generate a PDF
+
+    //$dompdf->loadHtml('<h1 style="color:blue;">AllPHPTricks.com3</h1>');
+    // $html_file = file_get_contents("factura.html"); // para contenido estatico
+    $dompdf->loadHtml($html_file);
+
+    // (Optional) Setup the paper size and orientation
+    $dompdf->setPaper('A4', 'portrait');
+    // Render the HTML as PDF
+    $dompdf->render();
+
+    // Devuelve el archivo PDF en forma de cadena.
+    $pdf_string = $dompdf->output(); 
+    // Nombre y ubicación del archivo PDF
+    $pdf_file_loc = '../printsPDF/listaPisos.pdf';
+    // Guardar el PDF generado en la ubicación deseada con un nombre personalizado
+    file_put_contents($pdf_file_loc, $pdf_string);
+    //echo ' despues de "contents"';
+
+    // Download the generated PDF
+    // $dompdf->stream()
+    // $dompdf->stream("test", array("Attachment" => 1, "compress" => 0));
+    //echo ' despues de "stream"';
+           
+    
+    header("Location: ../view/pisos.php?error=Printed");
  
-</body>
-</html>              
-
+?>
