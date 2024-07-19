@@ -43,6 +43,7 @@ if(!isset($_SESSION['user'])){
     header("Location: ../index.php");
     exit();
 }
+$user = $_SESSION['user'];
 if (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['error'])) { // Validaciones
 
 if ( $_GET['error'] == 'Printed') {
@@ -70,6 +71,9 @@ require "../includes/pisosLista-inc.php";
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="noupis.php">Alta Pis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reservas.php">Reservas</a>
                 </li>
             </ul>
             <div class="d-flex">
@@ -111,8 +115,9 @@ require "../includes/pisosLista-inc.php";
                 echo "<td>$piso[tipus]</td>";
                 echo "<td>$piso[numHabitacions]</td>";
                 echo "<td>$piso[numLavabos]</td>";
-                echo "<td>$piso[users_uid]</td>";
+                echo "<td>$piso[users_users_uid]</td>";
                 echo "<td><a href='../includes/borraPiso.php?uidpis=$piso[uidpis]'>Borrar</a></td>";
+                echo "<td><a href='../includes/reservaPiso-inc.php?idpis=$piso[idPis]&users_users_uid=$user'>Reservar</a></td>";
                 echo "</tr>";
             };
     ?>
