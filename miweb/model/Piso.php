@@ -7,7 +7,7 @@ class Piso extends Connection {
     public function getTodos() {
             
         $result = true;
-        $stmt = $this->connect()->prepare("Select idPis, uidpis, tipus, numHabitacions, numLavabos, users_uid from ". $this->tablaNombre);
+        $stmt = $this->connect()->prepare("Select idPis, uidpis, tipus, numHabitacions, numLavabos, users_users_uid from ". $this->tablaNombre);
         $result = $stmt->execute();
         $this->tablaNumReg = $stmt->rowCount();
         return $stmt->fetchAll();
@@ -15,7 +15,7 @@ class Piso extends Connection {
         
   protected function setPiso($uidpis, $tipus, $numHabitacions, $numLavabos,  $users_uid){
         $error = 0;
-        $stmt = $this->connect()->prepare("INSERT INTO pisos (uidpis, tipus, numHabitacions, numLavabos, users_uid) VALUES (?,?,?,?,?)");
+        $stmt = $this->connect()->prepare("INSERT INTO pisos (uidpis, tipus, numHabitacions, numLavabos, users_users_uid) VALUES (?,?,?,?,?)");
    
         if(!$stmt->execute(array($uidpis, $tipus, $numHabitacions, $numLavabos, $users_uid))){
               $error = 1;
@@ -47,6 +47,6 @@ protected function deletePiso($uidpis){
             $stmt = null;
             return $error;
       }
-
 }
+
 ?>

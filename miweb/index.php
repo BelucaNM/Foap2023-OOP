@@ -46,6 +46,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="view/noupis.php">Alta Pis</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="view/reservas.php">Alta Pis</a>
+                </li>
             </ul>
             <div class="d-flex">
                 <ul class="navbar-nav  me-auto">
