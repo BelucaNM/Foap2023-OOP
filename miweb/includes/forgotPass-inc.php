@@ -13,7 +13,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit']) ){// Valid
     print_r($_POST);
     require "../controler/userContr.php";
     
-    $emailContr= new userContr("","","",$email);
+    $emailContr= new usuarioContr("","","",$email);
     $emailContr->forgotPassword();
     
 };
